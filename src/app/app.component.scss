@@ -1,0 +1,10 @@
+.content {
+  padding-bottom: 60px; /* Adjust as needed based on the height of your menu */
+}
+
+@media (min-width: 768px) {
+  .content{
+    padding-bottom: 0;
+    margin-left: 34px;
+  }
+}

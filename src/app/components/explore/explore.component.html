@@ -1,0 +1,12 @@
+<div class="search">
+  <div class="search-container">
+    <mat-form-field class="search-box">
+      <input (search)="search()" (keyup)="search()" matInput placeholder="Search" type="search" [formControl]="query">
+    </mat-form-field>
+  </div>
+  
+  <div *ngFor="let user of results" class="profile" routerLink="/profile/{{user.id}}">
+    <img [src]="user.profilePicture" alt="Profile Picture">
+    <span>{{ user.username }}</span>
+  </div>
+</div>

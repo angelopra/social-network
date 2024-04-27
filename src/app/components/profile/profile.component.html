@@ -1,0 +1,27 @@
+<div *ngIf="user" class="profile">
+  <div class="profile-header">
+    <img [src]="user.profilePicture" alt="Profile Picture" />
+    <h2>{{ user.username }}</h2>
+  </div>
+  <div class="profile-details">
+    <p>{{ user.email }}</p>
+    <mat-chip class="tag" *ngFor="let tag of user.tags">{{ tag }}</mat-chip>
+    <p>{{ user.description }}</p>
+  </div>
+
+  <div class="logout-container">
+    <button mat-fab color="outline" [matMenuTriggerFor]="menu" aria-label="Open options">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
