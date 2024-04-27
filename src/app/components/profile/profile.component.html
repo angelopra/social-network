@@ -1,7 +1,13 @@
 <div *ngIf="user" class="profile">
   <div class="profile-header">
     <img [src]="user.profilePicture" alt="Profile Picture" />
-    <h2>{{ user.username }}</h2>
+    <div class="profile-info">
+      <h2>{{ user.username }}</h2>
+      <div *ngIf="user.id !== 1" class="button-container">
+        <button mat-raised-button color="primary" class="follow-button">Follow</button>
+        <button mat-raised-button class="message-button">Message</button>
+      </div>
+    </div>
   </div>
   <div class="profile-details">
     <p>{{ user.email }}</p>
@@ -9,7 +15,7 @@
     <p>{{ user.description }}</p>
   </div>
 
-  <div class="logout-container">
+  <div *ngIf="user.id === 1" class="options-container">
     <button mat-fab color="outline" [matMenuTriggerFor]="menu" aria-label="Open options">
       <mat-icon>more_vert</mat-icon>
     </button>
