@@ -7,10 +7,16 @@ import { HOME_URL, LOGIN_URL } from 'src/app/app.config';
   providedIn: 'root'
 })
 export class AuthService {
+  private _loggedUserId: string = '';
+
   constructor(
     private http: HttpClient,
     private router: Router,
   ) { }
+
+  get loggedUserId(): string {
+    return this._loggedUserId;
+  }
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
@@ -19,6 +25,7 @@ export class AuthService {
 
   login(username: string, password: string): void {
     localStorage.setItem('token', 'abcdef');
+    this._loggedUserId = '1';
     this.router.navigateByUrl(HOME_URL);
   }
 

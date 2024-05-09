@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./groups.component.scss']
 })
 export class GroupsComponent {
-
+  // userGroups: GroupDto = [];
 }
