@@ -1,36 +1,36 @@
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { HOME_URL, LOGIN_URL } from 'src/app/app.config';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private _loggedUserId: string = '';
+export class AuthService {  
+  user?: SocialUser;
 
   constructor(
-    private http: HttpClient,
     private router: Router,
-  ) { }
+    private socialAuthService: SocialAuthService,
+  ) {
+    this.socialAuthService.authState.subscribe(user => {
+      this.user = user;
+      localStorage.setItem('idToken', user.idToken);
+      router.navigateByUrl(HOME_URL);
+    });
+  }
 
   get loggedUserId(): string {
-    return this._loggedUserId;
+    return '1';
   }
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('idToken');
     return !!token;
   }
 
-  login(username: string, password: string): void {
-    localStorage.setItem('token', 'abcdef');
-    this._loggedUserId = '1';
-    this.router.navigateByUrl(HOME_URL);
-  }
-
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('idToken');
     this.router.navigateByUrl(LOGIN_URL);
   }
 }

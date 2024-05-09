@@ -22,6 +22,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { GroupsComponent } from './components/groups/groups.component';
+import { GoogleLoginProvider, GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -47,9 +48,24 @@ import { GroupsComponent } from './components/groups/groups.component';
     MatMenuModule,
     MatRippleModule,
     MatInputModule,
+    SocialLoginModule,
+    GoogleSigninButtonModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('928983374003-2rm92s0gbucjbk3n7c6i2cs46uis0cc6.apps.googleusercontent.com'),
+          }
+        ]
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

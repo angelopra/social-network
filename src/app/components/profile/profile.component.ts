@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UserDto } from 'src/app/models/user.dto';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -16,7 +16,6 @@ export class ProfileComponent {
     private auth: AuthService,
   ) {
     this.route.data.subscribe(({ user }) => this.user = user);
-    this.route.data.subscribe(({ user }) => console.log);
   }
 
   logout() {
