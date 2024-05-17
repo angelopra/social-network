@@ -1,5 +1,5 @@
-<!-- <div class="feed">
-  <div [routerLink]="[group.id]" class="post" *ngFor="let group of userGroups">
+<div class="feed">
+  <div [routerLink]="[group.id]" class="post" *ngFor="let group of userGroups$ | async">
     <img src="{{ group.picture }}"
       alt="Group {{ group.name }} picture" class="profile-picture" />
     <div class="post-content">
@@ -8,4 +8,4 @@
       <p>{{ group.lastMessage.author }}: {{ group.lastMessage.content }}</p>
     </div>
   </div>
-</div> -->
+</div>
