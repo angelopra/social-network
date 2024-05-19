@@ -1,8 +1,8 @@
-import { MessageDto } from "./message.dto";
+import { PostDto } from './post.dto';
 
 export interface GroupDto {
   id: number;
   name: string;
   picture: string;
-  lastMessage: MessageDto;
+  lastPost: PostDto;
 }

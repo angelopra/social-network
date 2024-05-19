@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Post } from 'src/app/models/post.dto';
+import { PostDto } from 'src/app/models/post.dto';
 import { FeedService } from 'src/app/services/feed/feed.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { FeedService } from 'src/app/services/feed/feed.service';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent {
-  posts$: Observable<Post[]> = this.feedService.getPosts();
+  posts$: Observable<PostDto[]> = this.feedService.getPosts();
 
   constructor(private feedService: FeedService) {}
 }

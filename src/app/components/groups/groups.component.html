@@ -4,8 +4,8 @@
       alt="Group {{ group.name }} picture" class="profile-picture" />
     <div class="post-content">
       <a class="username">{{ group.name }}</a>
-      <span class="created-at">{{ group.lastMessage.createdAt | date }}</span>
-      <p>{{ group.lastMessage.author }}: {{ group.lastMessage.content }}</p>
+      <span class="created-at">{{ group.lastPost.createdAt | date }}</span>
+      <p>{{ group.lastPost.username }}: {{ group.lastPost.content }}</p>
     </div>
   </div>
 </div>
