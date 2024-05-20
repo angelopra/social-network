@@ -1,6 +1,6 @@
 export interface PostDto {
-  id: number;
-  userId: number;
+  id: string;
+  userId: string;
   username: string;
   profilePicture: string;
   content: string;

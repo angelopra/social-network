@@ -1,5 +1,5 @@
 export interface UserDto {
-  id: number;
+  id: string;
   username: string;
   profilePicture: string;
   email: string;

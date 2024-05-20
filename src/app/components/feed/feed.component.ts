@@ -9,7 +9,7 @@ import { FeedService } from 'src/app/services/feed/feed.service';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent {
-  posts$: Observable<PostDto[]> = this.feedService.getPosts();
+  posts$: Observable<PostDto[]> = this.feedService.getFeed();
 
   constructor(private feedService: FeedService) {}
 }

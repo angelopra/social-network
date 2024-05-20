@@ -6,22 +6,19 @@ import { HOME_URL, LOGIN_URL } from 'src/app/app.config';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {  
-  user?: SocialUser;
-
+export class AuthService {
   constructor(
     private router: Router,
     private socialAuthService: SocialAuthService,
   ) {
     this.socialAuthService.authState.subscribe(user => {
-      this.user = user;
       localStorage.setItem('idToken', user.idToken);
       router.navigateByUrl(HOME_URL);
     });
   }
 
-  get loggedUserId(): string {
-    return '1';
+  get idToken(): string {
+    return localStorage.getItem('idToken') ?? '';
   }
 
   isAuthenticated(): boolean {

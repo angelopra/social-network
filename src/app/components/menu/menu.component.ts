@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,5 +7,9 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  constructor(public auth: AuthService) {}
+  constructor(public userService: UserService) {}
+
+  get loggedUserId(): string {
+    return this.userService.current?.id ?? '';
+  }
 }

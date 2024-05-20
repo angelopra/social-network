@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -23,6 +23,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { GoogleLoginProvider, GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { GoogleLoginProvider, GoogleSigninButtonModule, SocialLoginModule } from
           }
         ]
       }
-    }
+    },
+    INTERCEPTOR_PROVIDERS,
   ],
   bootstrap: [AppComponent]
 })
