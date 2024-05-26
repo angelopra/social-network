@@ -2,7 +2,7 @@
   <div class="profile-header">
     <img [src]="user.profilePicture" alt="Profile Picture" />
     <div class="profile-info">
-      <h2>{{ user.username }}</h2>
+      <h2>{{ user.firstName }} {{ user.lastName }}</h2>
       <div *ngIf="user.id !== '1'" class="button-container">
         <button mat-raised-button color="primary" class="follow-button">Follow</button>
         <button mat-raised-button class="message-button">Message</button>
@@ -12,7 +12,7 @@
   <div class="profile-details">
     <p>{{ user.email }}</p>
     <mat-chip class="tag" *ngFor="let tag of user.tags">{{ tag }}</mat-chip>
-    <p>{{ user.description }}</p>
+    <p>{{ user.about }}</p>
   </div>
 
   <div *ngIf="user.id === '1'" class="options-container">
