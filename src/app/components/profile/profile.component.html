@@ -3,7 +3,7 @@
     <img [src]="user.profilePicture" alt="Profile Picture" />
     <div class="profile-info">
       <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-      <div *ngIf="user.id !== '1'" class="button-container">
+      <div *ngIf="user.id !== loggedUserId" class="button-container">
         <button mat-raised-button color="primary" class="follow-button">Follow</button>
         <button mat-raised-button class="message-button">Message</button>
       </div>
@@ -15,9 +15,12 @@
     <p>{{ user.about }}</p>
   </div>
 
-  <div *ngIf="user.id === '1'" class="options-container">
-    <button mat-fab color="outline" [matMenuTriggerFor]="menu" aria-label="Open options">
+  <div>
+    <button *ngIf="user.id === loggedUserId" mat-fab color="outline" [matMenuTriggerFor]="menu" aria-label="Open options" class="options-button">
       <mat-icon>more_vert</mat-icon>
+    </button>
+    <button *ngIf="user.id !== loggedUserId" mat-fab color="outline" aria-label="Go back" class="go-back-button" (click)="location.back()">
+      <mat-icon>arrow_back</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="logout()">

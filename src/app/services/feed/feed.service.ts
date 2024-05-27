@@ -8,6 +8,8 @@ import { UserService } from '../user/user.service';
   providedIn: 'root'
 })
 export class FeedService {
+  scrolled = 0;
+
   constructor(private http: HttpClient, private userService: UserService) { }
 
   getFeed(): Observable<PostDto[]> {
