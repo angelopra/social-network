@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { routes } from './app-routing';
@@ -49,6 +50,7 @@ import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
     MatMenuModule,
     MatRippleModule,
     MatInputModule,
+    MatTabsModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
     RouterModule.forRoot(routes),

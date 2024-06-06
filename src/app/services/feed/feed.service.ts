@@ -16,7 +16,7 @@ export class FeedService {
     POSTS_MOCK.forEach(p => {
       const user = this.userService.get(p.userId);
       p.profilePicture = user.profilePicture;
-      p.username = user.firstName;
+      p.username = user.firstName + ' ' + user.lastName;
     });
     return of(POSTS_MOCK);
   }
