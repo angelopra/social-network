@@ -16,6 +16,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px;
   margin: 20px;
+  cursor: pointer;
 }
 
 .profile img {
@@ -28,4 +29,9 @@
 .profile span {
   font-weight: bold;
   color: #333;
+}
+
+.search {
+  max-width: 600px;
+  margin: 0 auto;
 }

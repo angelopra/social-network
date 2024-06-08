@@ -1,11 +1,10 @@
 .feed {
-  width: 100%;
   max-width: 600px;
   margin: 0 auto;
 
   h2 {
     font-size: 36px;
-    color: #2c3e50;
+    color: #673ab7;
     margin: 20px 0 30px;
     text-align: center;
     text-transform: uppercase;
@@ -19,13 +18,15 @@
     align-items: center;
     border-bottom: 1px solid #ddd;
     padding: 10px;
-    margin-bottom: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 
     .profile-picture {
       width: 50px;
       height: 50px;
       border-radius: 50%;
       margin-right: 10px;
+      cursor: pointer;
     }
 
     .username {

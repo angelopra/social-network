@@ -9,6 +9,6 @@ import { UserService } from '../services/user/user.service';
 
 export const userResolver: ResolveFn<UserDto> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const userService = inject(UserService);
-  const userId = Number(route.params['userId'])
+  const userId = route.params['userId'];
   return userService.get(userId);
 }

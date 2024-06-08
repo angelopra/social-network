@@ -7,6 +7,6 @@
   
   <div *ngFor="let user of results" class="profile" routerLink="/profile/{{user.id}}">
     <img [src]="user.profilePicture" alt="Profile Picture">
-    <span>{{ user.username }}</span>
+    <span>{{ user.firstName }} {{ user.lastName }}</span>
   </div>
 </div>

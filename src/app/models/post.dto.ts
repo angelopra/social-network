@@ -1,6 +1,6 @@
-export interface Post {
-  id: number;
-  userId: number;
+export interface PostDto {
+  id: string;
+  userId: string;
   username: string;
   profilePicture: string;
   content: string;

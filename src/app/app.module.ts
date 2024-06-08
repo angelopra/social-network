@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { routes } from './app-routing';
@@ -22,6 +23,8 @@ import { MenuComponent } from './components/menu/menu.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { GroupsComponent } from './components/groups/groups.component';
+import { GoogleLoginProvider, GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
 
 @NgModule({
   declarations: [
@@ -47,9 +50,26 @@ import { GroupsComponent } from './components/groups/groups.component';
     MatMenuModule,
     MatRippleModule,
     MatInputModule,
+    MatTabsModule,
+    SocialLoginModule,
+    GoogleSigninButtonModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('928983374003-2rm92s0gbucjbk3n7c6i2cs46uis0cc6.apps.googleusercontent.com'),
+          }
+        ]
+      }
+    },
+    INTERCEPTOR_PROVIDERS,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
