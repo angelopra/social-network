@@ -25,8 +25,8 @@ export class ProfileComponent {
     private feedService: FeedService,
   ) {
     this.route.data.subscribe(({ user }) => {
-      this.user = user
-      this.posts$ = this.feedService.getFeed().pipe(map(posts => posts.filter(p => p.userId === this.user?.id)))
+      this.user = user;
+      this.posts$ = this.feedService.getFeed().pipe(map(posts => posts.filter(p => p.userId === this.user?.id)));
     });
   }
 
