@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Create a New Post</h2>
+<mat-dialog-content>
+  <form [formGroup]="postForm">
+    <mat-form-field class="full-width">
+      <textarea
+        matInput
+        placeholder="Write your post here..."
+        formControlName="content"
+      ></textarea>
+    </mat-form-field>
+    <div class="dropdown-container">
+      <mat-form-field class="half-width">
+        <mat-select placeholder="Tags" formControlName="tags" multiple>
+          <mat-option *ngFor="let tag of availableTags" [value]="tag">{{
+            tag
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="half-width">
+        <mat-select placeholder="Privacy" formControlName="privacy">
+          <mat-option value="public">Public</mat-option>
+          <mat-option value="private">Private</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="postForm.invalid">
+    Publish
+  </button>
+</mat-dialog-actions>

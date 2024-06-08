@@ -1,0 +1,30 @@
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 48%;
+  margin-right: 2%;
+}
+
+.dropdown-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-dialog-actions {
+  justify-content: flex-end;
+}
+
+mat-form-field {
+  margin-bottom: 10px;
+}
+
+textarea {
+  min-height: 100px;
+}
