@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth/auth.service';
+import { LoadingService } from './services/loading/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,11 @@ import { AuthService } from './services/auth/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    public loadingService: LoadingService,
+  ) {}
+
   get isLoggedIn() {
     return this.auth.isAuthenticated();
   }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, delay, of } from 'rxjs';
 import { PostDto } from 'src/app/models/post.dto';
 import { UserService } from '../user/user.service';
 
@@ -10,7 +10,10 @@ import { UserService } from '../user/user.service';
 export class FeedService {
   scrolled = 0;
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+  ) { }
 
   getFeed(): Observable<PostDto[]> {
     POSTS_MOCK.forEach(p => {
@@ -19,6 +22,10 @@ export class FeedService {
       p.username = user.firstName + ' ' + user.lastName;
     });
     return of(POSTS_MOCK);
+  }
+
+  createPost(): Observable<void> {
+    return of(void 0).pipe(delay(1000));
   }
 }
 
