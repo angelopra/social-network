@@ -18,7 +18,13 @@ export class UserService {
   }
 
   getGroups(): Observable<GroupDto[]> {
-    return of(GROUPS_MOCK);
+    return of(GROUPS_MOCK).pipe(tap(groups => groups.forEach(g => {
+      if (g.lastPost) {
+        const user = this.get(g.lastPost.userId);
+        g.lastPost.firstName = user.firstName;
+        g.lastPost.lastName = user.lastName;
+      }
+    })));
   }
 
   search(qry: string): UserDto[] {
@@ -37,10 +43,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '1',
     name: 'Music Lovers',
     picture: '/assets/img/group1.jpg',
+    createdAt: new Date('2024-05-10T14:48:00.000Z'),
     lastPost: {
       id: '1',
       userId: '1',
-      username: 'Alice',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'Check out this new song!',
       createdAt: new Date('2024-05-10T14:48:00.000Z'),
@@ -50,10 +58,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '2',
     name: 'Book Club',
     picture: '/assets/img/group2.jpg',
+    createdAt: new Date('2024-05-12T16:20:00.000Z'),
     lastPost: {
       id: '2',
       userId: '2',
-      username: 'Bob',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'Next meeting is on Friday!',
       createdAt: new Date('2024-05-12T16:20:00.000Z'),
@@ -63,10 +73,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '3',
     name: 'Fitness Enthusiasts',
     picture: '/assets/img/group3.jpg',
+    createdAt: new Date('2024-05-15T09:30:00.000Z'),
     lastPost: {
       id: '3',
       userId: '3',
-      username: 'Charlie',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'New workout routine posted!',
       createdAt: new Date('2024-05-15T09:30:00.000Z'),
@@ -76,10 +88,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '4',
     name: 'Travel Buddies',
     picture: '/assets/img/group4.jpg',
+    createdAt: new Date('2024-05-14T18:45:00.000Z'),
     lastPost: {
       id: '4',
       userId: '4',
-      username: 'Daisy',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'Who\'s up for a weekend trip?',
       createdAt: new Date('2024-05-14T18:45:00.000Z'),
@@ -89,10 +103,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '5',
     name: 'Cooking Recipes',
     picture: '/assets/img/group5.jpg',
+    createdAt: new Date('2024-05-13T12:15:00.000Z'),
     lastPost: {
       id: '5',
       userId: '5',
-      username: 'Ethan',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'Just tried a new recipe!',
       createdAt: new Date('2024-05-13T12:15:00.000Z'),
@@ -102,10 +118,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '6',
     name: 'Movie Fans',
     picture: '/assets/img/group6.jpg',
+    createdAt: new Date('2024-05-11T20:10:00.000Z'),
     lastPost: {
       id: '6',
       userId: '6',
-      username: 'Fiona',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'What did you think of the latest movie?',
       createdAt: new Date('2024-05-11T20:10:00.000Z'),
@@ -115,10 +133,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '7',
     name: 'Tech Geeks',
     picture: '/assets/img/group7.jpg',
+    createdAt: new Date('2024-05-16T14:00:00.000Z'),
     lastPost: {
       id: '7',
       userId: '7',
-      username: 'George',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'New gadget release today!',
       createdAt: new Date('2024-05-16T14:00:00.000Z'),
@@ -128,10 +148,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '8',
     name: 'Pet Lovers',
     picture: '/assets/img/group8.jpg',
+    createdAt: new Date('2024-05-17T09:00:00.000Z'),
     lastPost: {
       id: '8',
       userId: '8',
-      username: 'Hannah',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'Share photos of your pets!',
       createdAt: new Date('2024-05-17T09:00:00.000Z'),
@@ -141,10 +163,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '9',
     name: 'Gaming Community',
     picture: '/assets/img/group9.jpg',
+    createdAt: new Date('2024-05-14T22:30:00.000Z'),
     lastPost: {
       id: '9',
       userId: '9',
-      username: 'Ian',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'Who’s up for a gaming session?',
       createdAt: new Date('2024-05-14T22:30:00.000Z'),
@@ -154,10 +178,12 @@ const GROUPS_MOCK: GroupDto[] = [
     id: '10',
     name: 'Art and Design',
     picture: '/assets/img/group10.jpg',
+    createdAt: new Date('2024-05-13T17:45:00.000Z'),
     lastPost: {
       id: '10',
       userId: '10',
-      username: 'Jane',
+      firstName: '',
+      lastName: '',
       profilePicture: '/assets/img/fotingers.jpg',
       content: 'New art exhibition this weekend!',
       createdAt: new Date('2024-05-13T17:45:00.000Z'),

@@ -19,7 +19,8 @@ export class FeedService {
     POSTS_MOCK.forEach(p => {
       const user = this.userService.get(p.userId);
       p.profilePicture = user.profilePicture;
-      p.username = user.firstName + ' ' + user.lastName;
+      p.firstName = user.firstName;
+      p.lastName = user.lastName;
     });
     return of(POSTS_MOCK);
   }
@@ -32,7 +33,8 @@ export class FeedService {
 const POSTS_MOCK: PostDto[] = [
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '1',
     createdAt: new Date('2024-04-27T08:00:00'),
@@ -40,7 +42,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '2',
     createdAt: new Date('2024-04-26T15:30:00'),
@@ -48,7 +51,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '3',
     createdAt: new Date('2024-04-25T12:45:00'),
@@ -56,7 +60,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '2',
     createdAt: new Date('2024-04-24T18:20:00'),
@@ -64,7 +69,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '5',
     createdAt: new Date('2024-04-23T10:10:00'),
@@ -72,7 +78,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '6',
     createdAt: new Date('2024-04-22T09:15:00'),
@@ -80,7 +87,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '2',
     createdAt: new Date('2024-04-21T14:30:00'),
@@ -88,7 +96,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '1',
     createdAt: new Date('2024-04-20T11:20:00'),
@@ -96,7 +105,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '3',
     createdAt: new Date('2024-04-19T16:45:00'),
@@ -104,7 +114,8 @@ const POSTS_MOCK: PostDto[] = [
   },
   {
     id: '1',
-    username: '',
+    firstName: '',
+    lastName: '',
     profilePicture: '',
     userId: '6',
     createdAt: new Date('2024-04-18T10:05:00'),

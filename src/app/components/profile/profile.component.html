@@ -37,20 +37,7 @@
   <mat-tab-group>
     <mat-tab label="Posts">
       <div class="tab-content">
-        <div class="post" *ngFor="let post of posts$ | async">
-          <img
-            src="{{ post.profilePicture }}"
-            alt="{{ post.username }} profile picture"
-            class="profile-picture"
-          />
-          <div class="post-content">
-            <a [routerLink]="['/profile', post.userId]" class="username">{{
-              post.username
-            }}</a>
-            <span class="created-at">{{ post.createdAt | date }}</span>
-            <p>{{ post.content }}</p>
-          </div>
-        </div>
+        <app-content-list [items]="posts$ | async" [options]="listOptions"></app-content-list>
       </div>
     </mat-tab>
     <mat-tab label="Followers">

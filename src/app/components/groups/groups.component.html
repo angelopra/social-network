@@ -1,11 +1,1 @@
-<div class="feed">
-  <div [routerLink]="[group.id]" class="post" *ngFor="let group of userGroups$ | async">
-    <img src="{{ group.picture }}"
-      alt="Group {{ group.name }} picture" class="profile-picture" />
-    <div class="post-content">
-      <a class="username">{{ group.name }}</a>
-      <span class="created-at">{{ group.lastPost.createdAt | date }}</span>
-      <p>{{ group.lastPost.username }}: {{ group.lastPost.content }}</p>
-    </div>
-  </div>
-</div>
+<app-content-list [items]="userGroups$ | async" [options]="listOptions"></app-content-list>
