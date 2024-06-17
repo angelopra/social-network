@@ -9,6 +9,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { userResolver } from './resolvers/user.resolver';
 import { ExploreComponent } from './components/explore/explore.component';
 import { GroupsComponent } from './components/groups/groups.component';
+import { ChatListComponent } from './components/chat-list/chat-list.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,10 @@ export const routes: Routes = [
       {
         path: 'home',
         component: FeedComponent,
+      },
+      {
+        path: 'chats',
+        component: ChatListComponent,
       },
       {
         path: 'profile/:userId',

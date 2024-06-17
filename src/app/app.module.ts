@@ -32,6 +32,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
 import { ContentListComponent } from './components/content-list/content-list.component';
+import { ChatListComponent } from './components/chat-list/chat-list.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ContentListComponent } from './components/content-list/content-list.com
     NewPostComponent,
     LoadingComponent,
     ContentListComponent,
+    ChatListComponent,
   ],
   imports: [
     BrowserModule,
