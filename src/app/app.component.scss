@@ -1,10 +1,17 @@
+.container {
+  display: flex;
+  justify-content: center; /* Centers the content horizontally */
+  padding-bottom: 60px; /* menu height */
+}
+
 .content {
-  padding-bottom: 60px; // menu height
+  max-width: 600px;
+  width: 100%; /* Ensure content takes full width for centering */
 }
 
 @media (min-width: 768px) {
-  .content{
+  .container {
     padding-bottom: 0;
-    margin-left: 175px; // menu width in desktop, changes based in the size of the bigger menu label
+    margin-left: 175px; /* menu width in desktop, changes based on the size of the bigger menu label */
   }
 }

@@ -1,4 +1,4 @@
-<div *ngIf="options">
+<div *ngIf="options" class="list-container">
   <div class="post" *ngFor="let item of items" (click)="options.onClick?.(item)">
     <img (click)="options.image.onClick?.(item)" [src]="options.image.src(item)" [alt]="options.image.alt(item)" class="profile-picture" />
     <div class="post-content">
