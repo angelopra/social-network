@@ -44,15 +44,6 @@ const GROUPS_MOCK: GroupDto[] = [
     name: 'Music Lovers',
     picture: '/assets/img/group1.jpg',
     createdAt: new Date('2024-05-10T14:48:00.000Z'),
-    lastPost: {
-      id: '1',
-      userId: '1',
-      firstName: '',
-      lastName: '',
-      profilePicture: '/assets/img/fotingers.jpg',
-      content: 'Check out this new song!',
-      createdAt: new Date('2024-05-10T14:48:00.000Z'),
-    },
   },
   {
     id: '2',
@@ -89,15 +80,6 @@ const GROUPS_MOCK: GroupDto[] = [
     name: 'Travel Buddies',
     picture: '/assets/img/group4.jpg',
     createdAt: new Date('2024-05-14T18:45:00.000Z'),
-    lastPost: {
-      id: '4',
-      userId: '4',
-      firstName: '',
-      lastName: '',
-      profilePicture: '/assets/img/fotingers.jpg',
-      content: 'Who\'s up for a weekend trip?',
-      createdAt: new Date('2024-05-14T18:45:00.000Z'),
-    },
   },
   {
     id: '5',
@@ -149,15 +131,6 @@ const GROUPS_MOCK: GroupDto[] = [
     name: 'Pet Lovers',
     picture: '/assets/img/group8.jpg',
     createdAt: new Date('2024-05-17T09:00:00.000Z'),
-    lastPost: {
-      id: '8',
-      userId: '8',
-      firstName: '',
-      lastName: '',
-      profilePicture: '/assets/img/fotingers.jpg',
-      content: 'Share photos of your pets!',
-      createdAt: new Date('2024-05-17T09:00:00.000Z'),
-    },
   },
   {
     id: '9',

@@ -1,5 +1,5 @@
 <div *ngIf="options">
-  <div class="post" *ngFor="let item of items">
+  <div class="post" *ngFor="let item of items" (click)="options.onClick?.(item)">
     <img (click)="options.image.onClick?.(item)" [src]="options.image.src(item)" [alt]="options.image.alt(item)" class="profile-picture" />
     <div class="post-content">
       <a (click)="options.title.onClick?.(item)" class="username">{{ options.title.displayWith(item) }}</a>

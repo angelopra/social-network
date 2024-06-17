@@ -25,8 +25,9 @@ export class GroupsComponent {
       displayWith: p => p.lastPost?.createdAt ?? p.createdAt,
     },
     content: {
-      displayWith: p => p.lastPost ? `${p.lastPost.firstName}: ${p.lastPost.content}` : 'Welcome! Create the first post for this group!',
+      displayWith: p => p.lastPost ? `${p.lastPost.firstName} ${p.lastPost.lastName} posted about ${p.lastPost.tags?.[0] ?? 'something'}. Check it out!` : 'Welcome! Create the first post for this group!',
     },
+    onClick: p => this.router.navigate(['/groups', p.id]),
   };
 
   constructor(

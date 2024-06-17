@@ -16,4 +16,5 @@ export interface ContentListOptions<T> {
     onClick?: (item: T) => void;
     displayWith: (item: T) => string;
   };
+  onClick?: (item: T) => void;
 }

@@ -6,4 +6,5 @@ export interface PostDto {
   profilePicture: string;
   content: string;
   createdAt: Date;
+  tags?: string[];
 }
