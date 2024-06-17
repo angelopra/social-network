@@ -4,5 +4,6 @@ export interface GroupDto {
   id: string;
   name: string;
   picture: string;
-  lastPost: PostDto;
+  createdAt: Date;
+  lastPost?: PostDto;
 }
