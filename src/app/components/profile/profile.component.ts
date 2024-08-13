@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
-import { PostDto } from 'src/app/models/post.dto';
-import { UserDto } from 'src/app/models/user.dto';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FeedService } from 'src/app/services/feed/feed.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -15,10 +13,10 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  user?: UserDto;
-  posts$?: Observable<PostDto[]>;
+  user?: any;
+  posts$?: Observable<any[]>;
 
-  listOptions: ContentListOptions<PostDto> = {
+  listOptions: ContentListOptions<any> = {
     image: {
       src: p => p.profilePicture,
       alt: p => `${p.firstName} ${p.lastName}'s profile picture`,

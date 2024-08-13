@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
-import { GroupDto } from 'src/app/models/group.dto';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -11,9 +10,9 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./groups.component.scss']
 })
 export class GroupsComponent {
-  userGroups$: Observable<GroupDto[]> = this.userService.getGroups();
+  userGroups$: Observable<any[]> = this.userService.getGroups();
 
-  listOptions: ContentListOptions<GroupDto> = {
+  listOptions: ContentListOptions<any> = {
     image: {
       src: p => p.picture,
       alt: p => `${p.name} group picture`,

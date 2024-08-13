@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, tap } from 'rxjs';
-import { PostDto } from 'src/app/models/post.dto';
 import { FeedService } from 'src/app/services/feed/feed.service';
 import { NewPostComponent } from '../new-post/new-post.component';
 import { LoadingService } from 'src/app/services/loading/loading.service';
@@ -15,10 +14,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent implements OnDestroy {
-  posts$: Observable<PostDto[]> = this.feedService.getFeed().pipe(
+  posts$: Observable<any[]> = this.feedService.getFeed().pipe(
     tap(() => setTimeout(() => window.scroll(0, this.feedService.scrolled))),
   );
-  listOptions: ContentListOptions<PostDto> = {
+  listOptions: ContentListOptions<any> = {
     image: {
       src: p => p.profilePicture,
       alt: p => `${p.firstName} ${p.lastName}'s profile picture`,

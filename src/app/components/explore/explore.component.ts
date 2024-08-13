@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
-import { UserDto } from 'src/app/models/user.dto';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class ExploreComponent {
   query = this.nnfb.control('');
-  results: UserDto[] = [];
+  results: any[] = [];
 
   constructor(
     private nnfb: NonNullableFormBuilder,

@@ -1,6 +1,5 @@
 export interface MessageDto {
-  id: number;
-  author: string;
-  createdAt: Date;
+  received: boolean;
   content: string;
+  createdAtUtc: Date;
 }

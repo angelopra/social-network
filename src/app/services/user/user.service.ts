@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, tap } from 'rxjs';
-import { GroupDto } from 'src/app/models/group.dto';
-import { UserDto } from 'src/app/models/user.dto';
+import { delay, Observable, of, tap } from 'rxjs';
+import { CurrentUserDto } from 'src/app/models/user/current-user.dto';
+import { UserDto } from 'src/app/models/user/user.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  public current?: UserDto;
+  public current?: CurrentUserDto;
 
-  get(userId: string): UserDto {
+  get(userId: string): any {
     const user = USERS_MOCK.find(u => u.id === userId);
     if (!user) {
       throw new Error(`User with id=${userId} doesn't exist`);
@@ -17,7 +17,7 @@ export class UserService {
     return user;
   }
 
-  getGroups(): Observable<GroupDto[]> {
+  getGroups(): Observable<any[]> {
     return of(GROUPS_MOCK).pipe(tap(groups => groups.forEach(g => {
       if (g.lastPost) {
         const user = this.get(g.lastPost.userId);
@@ -27,18 +27,22 @@ export class UserService {
     })));
   }
 
-  search(qry: string): UserDto[] {
+  search(qry: string): any[] {
     return USERS_MOCK.filter(u => `${u.firstName} ${u.lastName}`.toLowerCase().includes(qry.toLowerCase()));
   }
 
-  getCurrent(): Observable<UserDto> {
+  getCurrent(): Observable<any> {
     return of(USERS_MOCK[0]).pipe(
       tap(u => this.current = u)
     );
   }
+
+  createPost(): Observable<void> {
+    return of(void 0).pipe(delay(1000));
+  }
 }
 
-const GROUPS_MOCK: GroupDto[] = [
+const GROUPS_MOCK: any[] = [
   {
     id: '1',
     name: 'Music Lovers',
@@ -164,7 +168,7 @@ const GROUPS_MOCK: GroupDto[] = [
   },
 ];
 
-const USERS_MOCK: UserDto[] = [
+const USERS_MOCK: any[] = [
   {
     id: '1',
     firstName: 'Angelo',
