@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, delay, of } from 'rxjs';
-import { PostDto } from 'src/app/models/post.dto';
 import { UserService } from '../user/user.service';
 
 @Injectable({
@@ -15,7 +14,7 @@ export class FeedService {
     private userService: UserService,
   ) { }
 
-  getFeed(): Observable<PostDto[]> {
+  getFeed(): Observable<any[]> {
     POSTS_MOCK.forEach(p => {
       const user = this.userService.get(p.userId);
       p.profilePicture = user.profilePicture;
@@ -30,7 +29,7 @@ export class FeedService {
   }
 }
 
-const POSTS_MOCK: PostDto[] = [
+const POSTS_MOCK: any[] = [
   {
     id: '1',
     firstName: '',

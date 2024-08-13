@@ -4,7 +4,7 @@ import {
   ResolveFn,
   RouterStateSnapshot
 } from '@angular/router';
-import { UserDto } from '../models/user.dto';
+import { UserDto } from '../models/user/user.dto';
 import { UserService } from '../services/user/user.service';
 
 export const userResolver: ResolveFn<UserDto> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
