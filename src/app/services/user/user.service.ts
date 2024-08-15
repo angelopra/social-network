@@ -1,13 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, Observable, of, tap } from 'rxjs';
-import { CurrentUserDto } from 'src/app/models/user/current-user.dto';
-import { UserDto } from 'src/app/models/user/user.dto';
+import { CurrentUserDto } from 'src/app/models';
+import envCommon from 'src/environments/environment.common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   public current?: CurrentUserDto;
+
+  constructor(private httpClient: HttpClient) {}
 
   get(userId: string): any {
     const user = USERS_MOCK.find(u => u.id === userId);
@@ -31,10 +34,8 @@ export class UserService {
     return USERS_MOCK.filter(u => `${u.firstName} ${u.lastName}`.toLowerCase().includes(qry.toLowerCase()));
   }
 
-  getCurrent(): Observable<any> {
-    return of(USERS_MOCK[0]).pipe(
-      tap(u => this.current = u)
-    );
+  getCurrent(): Observable<CurrentUserDto> {
+    return this.httpClient.get<CurrentUserDto>(envCommon.apiRoutes.user.current).pipe(tap(u => this.current = u));
   }
 
   createPost(): Observable<void> {
@@ -170,7 +171,7 @@ const GROUPS_MOCK: any[] = [
 
 const USERS_MOCK: any[] = [
   {
-    id: '1',
+    id: 'a39668cb-a431-47aa-9284-a3d1211015a3',
     firstName: 'Angelo',
     lastName: 'Pilotto',
     email: 'angelo@example.com',

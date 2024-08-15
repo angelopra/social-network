@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, delay, of } from 'rxjs';
+import { PostDto } from 'src/app/models';
+import envCommon from 'src/environments/environment.common';
 import { UserService } from '../user/user.service';
 
 @Injectable({
@@ -9,10 +11,11 @@ import { UserService } from '../user/user.service';
 export class FeedService {
   scrolled = 0;
 
-  constructor(
-    private http: HttpClient,
-    private userService: UserService,
-  ) { }
+  constructor(private http: HttpClient, private userService: UserService) {}
+
+  get(): Observable<PostDto[]> {
+    return this.http.get<PostDto[]>(envCommon.apiRoutes.user.feed);
+  }
 
   getFeed(): Observable<any[]> {
     POSTS_MOCK.forEach(p => {
@@ -35,7 +38,7 @@ const POSTS_MOCK: any[] = [
     firstName: '',
     lastName: '',
     profilePicture: '',
-    userId: '1',
+    userId: 'a39668cb-a431-47aa-9284-a3d1211015a3',
     createdAt: new Date('2024-04-27T08:00:00'),
     content: 'Just had the best coffee ever! ☕️ #coffeeaddict'
   },
@@ -98,7 +101,7 @@ const POSTS_MOCK: any[] = [
     firstName: '',
     lastName: '',
     profilePicture: '',
-    userId: '1',
+    userId: 'a39668cb-a431-47aa-9284-a3d1211015a3',
     createdAt: new Date('2024-04-20T11:20:00'),
     content: 'Celebrating my birthday today with friends and family. Grateful for another year! 🎂🎉 #birthdaycelebration'
   },

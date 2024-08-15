@@ -1,8 +1,23 @@
 <div class="feed">
-  <h2>Linkup</h2>
-  <app-content-list [options]="listOptions" [items]="posts$ | async"></app-content-list>
+  <h2 class="app-title">Linkup</h2>
+  <app-content-list [options]="listOptions" [items]="posts"></app-content-list>
 
-  <button mat-fab color="outline" aria-label="Create new post" class="add-post-button" (click)="openPostCreation()">
-    <mat-icon>add</mat-icon>
-  </button>
+  <app-loading *ngIf="isLoading"></app-loading>
+
+  <div *ngIf="posts.length === 0 && !isLoading" class="not-found">
+    <h2>Your feed is empty...</h2>
+    <p>
+      Start following people to see their posts here!
+    </p>
+    <button mat-raised-button color="primary" routerLink="/explore">Let's go!</button>
+  </div>
+  
+
+  <button
+    mat-fab
+    color="outline"
+    aria-label="Create new post"
+    class="add-post-button"
+    (click)="openPostCreation()"
+  ><mat-icon>add</mat-icon></button>
 </div>

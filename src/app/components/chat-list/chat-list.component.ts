@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
-import { ChatDto } from 'src/app/models/chat.dto';
 import { ChatService } from 'src/app/services/chat/chat.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { ChatService } from 'src/app/services/chat/chat.service';
 })
 export class ChatListComponent {
   chats$ = this.chatService.get();
-  listOptions: ContentListOptions<ChatDto> = {
+  listOptions: ContentListOptions<any> = {
     image: {
       src: c => c.otherUser.profilePictureUrl,
       alt: c => `${c.otherUser.firstName} ${c.otherUser.lastName}'s picture`,

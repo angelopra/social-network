@@ -1,12 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, tap } from 'rxjs';
-import { FeedService } from 'src/app/services/feed/feed.service';
-import { NewPostComponent } from '../new-post/new-post.component';
-import { LoadingService } from 'src/app/services/loading/loading.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ContentListOptions } from 'src/app/interfaces/content-list-options';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ContentListOptions } from 'src/app/interfaces/content-list-options';
+import { PostDto } from 'src/app/models';
+import { LoadingService } from 'src/app/services/loading/loading.service';
+import { NewPostComponent } from '../new-post/new-post.component';
+import { FeedService } from 'src/app/services/feed/feed.service';
 
 @Component({
   selector: 'app-feed',
@@ -14,26 +15,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent implements OnDestroy {
-  posts$: Observable<any[]> = this.feedService.getFeed().pipe(
-    tap(() => setTimeout(() => window.scroll(0, this.feedService.scrolled))),
-  );
-  listOptions: ContentListOptions<any> = {
+  posts: PostDto[] = [];
+  listOptions: ContentListOptions<PostDto> = {
     image: {
-      src: p => p.profilePicture,
-      alt: p => `${p.firstName} ${p.lastName}'s profile picture`,
-      onClick: p => this.router.navigate(['/profile', p.userId]),
+      src: p => p.author.profilePictureUrl ?? '',
+      alt: p => `${p.author.firstName} ${p.author.lastName}'s profile picture`,
+      onClick: p => this.router.navigate(['/profile', p.author.id]),
     },
     title: {
-      displayWith: p => `${p.firstName} ${p.lastName}`,
-      onClick: p => this.router.navigate(['/profile', p.userId]),
+      displayWith: p => `${p.author.firstName} ${p.author.lastName}`,
+      onClick: p => this.router.navigate(['/profile', p.author.id]),
     },
     date: {
-      displayWith: p => p.createdAt,
+      displayWith: p => p.createdAtUtc,
     },
     content: {
       displayWith: p => p.content,
     },
   };
+  isLoading = false;
 
   constructor(
     private feedService: FeedService,
@@ -41,7 +41,9 @@ export class FeedComponent implements OnDestroy {
     private loadingService: LoadingService,
     private snackBar: MatSnackBar,
     private router: Router,
-  ) {}
+  ) {
+    this.loadMore();
+  }
 
   ngOnDestroy(): void {
     this.feedService.scrolled = window.scrollY;
@@ -57,5 +59,10 @@ export class FeedComponent implements OnDestroy {
         });
       }
     });
+  }
+
+  private loadMore(): void {
+    this.isLoading = true;
+    this.feedService.get().subscribe(p => this.posts = p).add(() => this.isLoading = false);
   }
 }
