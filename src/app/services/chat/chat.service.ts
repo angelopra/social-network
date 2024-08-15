@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ChatDto } from '../../models/chat.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  get(): Observable<ChatDto[]> {
+  get(): Observable<any[]> {
     return of(CHATS_MOCK);
   }
 }
 
-const CHATS_MOCK: ChatDto[] = [
+const CHATS_MOCK: any[] = [
   {
     id: { chatId: '2' },
     otherUser: {

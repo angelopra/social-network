@@ -21,8 +21,8 @@ const envCommon = {
       search: '/user',
       getById: '/user/{userId}',
       posts: '/user/{userId}/posts',
-      current: '/user/current',
-      feed: '/user/current/feed',
+      current: '/user/current!AUTH!',
+      feed: '/user/current/feed!AUTH!',
     },
   },
 };

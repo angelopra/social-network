@@ -1,10 +1,36 @@
 <div *ngIf="options" class="list-container">
-  <div class="post" *ngFor="let item of items" (click)="options.onClick?.(item)">
-    <img (click)="options.image.onClick?.(item)" [src]="options.image.src(item)" [alt]="options.image.alt(item)" class="profile-picture" />
-    <div class="post-content">
-      <a (click)="options.title.onClick?.(item)" class="username">{{ options.title.displayWith(item) }}</a>
-      <span (click)="options.date.onClick?.(item)" class="created-at">{{ options.date.displayWith(item) | date }}</span>
-      <p (click)="options.content.onClick?.(item)">{{ options.content.displayWith(item) }}</p>
+  <div
+    class="item"
+    *ngFor="let item of items"
+    (click)="options.onClick?.(item)"
+    [ngClass]="{ clickable: !!options.onClick }"
+  >
+    <img
+      (click)="options.image.onClick?.(item)"
+      [ngClass]="{ clickable: !!options.image.onClick }"
+      [src]="options.image.src(item)"
+      [alt]="options.image.alt(item)"
+      class="image"
+    />
+    <div class="content">
+      <a
+        (click)="options.title.onClick?.(item)"
+        [ngClass]="{ clickable: !!options.title.onClick }"
+        class="title"
+        >{{ options.title.displayWith(item) }}</a
+      >
+      <span
+        (click)="options.date.onClick?.(item)"
+        [ngClass]="{ clickable: !!options.date.onClick }"
+        class="date"
+        >{{ options.date.displayWith(item) | date }}</span
+      >
+      <p
+        (click)="options.content.onClick?.(item)"
+        [ngClass]="{ clickable: !!options.content.onClick }"
+      >
+        {{ options.content.displayWith(item) }}
+      </p>
     </div>
   </div>
 </div>

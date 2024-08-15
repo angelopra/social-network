@@ -1,5 +1,5 @@
 .feed {
-  h2 {
+  .app-title {
     font-size: 36px;
     color: #673ab7;
     margin: 20px 0 30px;
@@ -16,4 +16,27 @@
     right: 10px;
     background-color: #fff;
   }
+}
+
+.not-found {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.not-found h2 {
+  font-size: 36px;
+  color: #333; /* Dark gray color */
+}
+
+.not-found p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.not-found button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff; /* White text color */
+  border: none;
+  border-radius: 5px;
 }
