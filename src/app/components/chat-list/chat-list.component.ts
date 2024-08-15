@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
+import { UserChatDto } from 'src/app/models';
 import { ChatService } from 'src/app/services/chat/chat.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -9,10 +11,9 @@ import { ChatService } from 'src/app/services/chat/chat.service';
   styleUrls: ['./chat-list.component.scss']
 })
 export class ChatListComponent {
-  chats$ = this.chatService.get();
-  listOptions: ContentListOptions<any> = {
+  listOptions: ContentListOptions<UserChatDto> = {
     image: {
-      src: c => c.otherUser.profilePictureUrl,
+      src: c => c.otherUser.profilePictureUrl ?? '',
       alt: c => `${c.otherUser.firstName} ${c.otherUser.lastName}'s picture`,
     },
     title: {
@@ -24,11 +25,15 @@ export class ChatListComponent {
     content: {
       displayWith: c => (c.lastMessage.received ? '' : '✔✔ ') + c.lastMessage.content,
     },
-    onClick: c => this.router.navigate(['/chats', c.id.chatId]),
+    onClick: c => this.router.navigate(['/chats', c.id.timestamp]),
   };
 
   constructor(
-    private chatService: ChatService,
+    private userService: UserService,
     private router: Router,
   ) {}
+
+  get chats(): UserChatDto[] {
+    return this.userService.current?.chats ?? [];
+  }
 }
