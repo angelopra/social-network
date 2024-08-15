@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, Observable, of, tap } from 'rxjs';
-import { CurrentUserDto } from 'src/app/models';
+import { CurrentUserDto, ResumedUserDto, SearchResult, UserSearchQueryParams } from 'src/app/models';
 import envCommon from 'src/environments/environment.common';
 
 @Injectable({
@@ -10,7 +10,7 @@ import envCommon from 'src/environments/environment.common';
 export class UserService {
   public current?: CurrentUserDto;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   get(userId: string): any {
     const user = USERS_MOCK.find(u => u.id === userId);
@@ -20,22 +20,13 @@ export class UserService {
     return user;
   }
 
-  getGroups(): Observable<any[]> {
-    return of(GROUPS_MOCK).pipe(tap(groups => groups.forEach(g => {
-      if (g.lastPost) {
-        const user = this.get(g.lastPost.userId);
-        g.lastPost.firstName = user.firstName;
-        g.lastPost.lastName = user.lastName;
-      }
-    })));
-  }
-
-  search(qry: string): any[] {
-    return USERS_MOCK.filter(u => `${u.firstName} ${u.lastName}`.toLowerCase().includes(qry.toLowerCase()));
+  search(params: UserSearchQueryParams): Observable<SearchResult<ResumedUserDto>> {
+    const options = { params: new HttpParams().appendAll({ ...params }) };
+    return this.http.get<SearchResult<ResumedUserDto>>(envCommon.apiRoutes.user.search, options);
   }
 
   getCurrent(): Observable<CurrentUserDto> {
-    return this.httpClient.get<CurrentUserDto>(envCommon.apiRoutes.user.current).pipe(tap(u => this.current = u));
+    return this.http.get<CurrentUserDto>(envCommon.apiRoutes.user.current).pipe(tap(u => this.current = u));
   }
 
   createPost(): Observable<void> {

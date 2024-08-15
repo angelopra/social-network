@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
+import { UserGroupDto } from 'src/app/models';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -10,21 +11,19 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./groups.component.scss']
 })
 export class GroupsComponent {
-  userGroups$: Observable<any[]> = this.userService.getGroups();
-
-  listOptions: ContentListOptions<any> = {
+  listOptions: ContentListOptions<UserGroupDto> = {
     image: {
-      src: p => p.picture,
+      src: p => p.pictureUrl ?? '',
       alt: p => `${p.name} group picture`,
     },
     title: {
       displayWith: p => p.name,
     },
     date: {
-      displayWith: p => p.lastPost?.createdAt ?? p.createdAt,
+      displayWith: p => p.lastPost?.createdAtUtc ?? p.createdAtUtc,
     },
     content: {
-      displayWith: p => p.lastPost ? `${p.lastPost.firstName} ${p.lastPost.lastName} posted about ${p.lastPost.tags?.[0] ?? 'something'}. Check it out!` : 'Welcome! Create the first post for this group!',
+      displayWith: p => p.lastPost ? `${p.lastPost.author.firstName} ${p.lastPost.author.lastName} posted about ${p.lastPost.tags?.[0] ?? 'something'}. Check it out!` : 'Welcome! Create the first post for this group!',
     },
     onClick: p => this.router.navigate(['/groups', p.id]),
   };
@@ -32,5 +31,9 @@ export class GroupsComponent {
   constructor(
     private userService: UserService,
     private router: Router,
-  ) { }
+  ) {}
+
+  get groups(): UserGroupDto[] {
+    return this.userService.current?.groups ?? [];
+  }
 }

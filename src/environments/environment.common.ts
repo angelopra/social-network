@@ -25,6 +25,8 @@ const envCommon = {
       feed: '/user/current/feed!AUTH!',
     },
   },
+  debounceTimeMs: 500,
+  searchLimit: 1,
 };
 
 export default envCommon;

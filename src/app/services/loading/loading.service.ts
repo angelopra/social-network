@@ -11,6 +11,7 @@ export class LoadingService {
   }
 
   set isLoading(val: boolean) {
+    // TODO: use counter
     this._isLoading = val;
   }
 }
