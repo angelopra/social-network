@@ -10,6 +10,8 @@ import { userResolver } from './resolvers/user.resolver';
 import { ExploreComponent } from './components/explore/explore.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
+import { ChatComponent } from './components/chat-list/chat/chat.component';
+import { GroupComponent } from './components/groups/group/group.component';
 
 export const routes: Routes = [
   {
@@ -32,7 +34,16 @@ export const routes: Routes = [
       },
       {
         path: 'chats',
-        component: ChatListComponent,
+        children: [
+          {
+            path: '',
+            component: ChatListComponent,
+          },
+          {
+            path: ':otherUserId',
+            component: ChatComponent,
+          },
+        ],
       },
       {
         path: 'profile/:userId',
@@ -45,12 +56,21 @@ export const routes: Routes = [
       },
       {
         path: 'groups',
-        component: GroupsComponent,
-      }
+        children: [
+          {
+            path: '',
+            component: GroupsComponent,
+          },
+          {
+            path: ':groupId',
+            component: GroupComponent,
+          },
+        ],
+      },
     ],
   },
   {
     path: '**',
     component: NotFoundComponent,
-  }
+  },
 ];

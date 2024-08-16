@@ -7,7 +7,7 @@
         <button *ngIf="isFollowing" mat-raised-button color="secondary" class="follow-button" (click)="unfollow()">Unfollow</button>
         <button *ngIf="!isFollowing && requestedToFollow" mat-raised-button color="secondary" class="follow-button" (click)="unfollow()">Requested</button>
         <button *ngIf="!isFollowing && !requestedToFollow" mat-raised-button color="primary" class="follow-button" (click)="follow()">Follow</button>
-        <button mat-raised-button class="message-button">Message</button>
+        <button mat-raised-button class="message-button" routerLink="/chats/{{user.id}}">Message</button>
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@
     </mat-menu>
   </div>
 
-  <mat-tab-group animationDuration="10">
+  <mat-tab-group animationDuration="120" dynamicHeight>
     <mat-tab label="Posts">
       <div class="tab-content">
         <app-content-list [items]="posts" [options]="listOptions"></app-content-list>
