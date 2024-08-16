@@ -12,7 +12,7 @@ const envCommon = {
       create: '/group',
     },
     post: {
-      create: '/post',
+      create: '/post!AUTH!',
     },
     tag: {
       getAll: '/tag',
