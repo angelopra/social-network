@@ -1,10 +1,11 @@
 const envCommon = {
+  // The routes ended in !AUTH! require a header with the idToken. This marker gets removed in the interceptor
   apiRoutes: {
     follow: {
-      request: '/follow/{followedId}',
-      stopFollowing: '/follow/{followedId}',
-      accept: '/follow/{followerId}/accept',
-      deny: '/follow/{followerId}/deny',
+      request: '/follow/{followedId}!AUTH!',
+      stopFollowing: '/follow/{followedId}!AUTH!',
+      accept: '/follow/{followerId}/accept!AUTH!',
+      deny: '/follow/{followerId}/deny!AUTH!',
     },
     group: {
       getById: '/group/{groupId}',
