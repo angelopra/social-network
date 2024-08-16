@@ -34,6 +34,8 @@ import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
 import { ContentListComponent } from './components/common/content-list/content-list.component';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
 import { UserListComponent } from './components/common/user-list/user-list.component';
+import { ChatComponent } from './components/chat-list/chat/chat.component';
+import { GroupComponent } from './components/groups/group/group.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { UserListComponent } from './components/common/user-list/user-list.compo
     ContentListComponent,
     ChatListComponent,
     UserListComponent,
+    ChatComponent,
+    GroupComponent,
   ],
   imports: [
     BrowserModule,

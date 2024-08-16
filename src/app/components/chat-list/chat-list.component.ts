@@ -25,7 +25,7 @@ export class ChatListComponent {
     content: {
       displayWith: c => (c.lastMessage.received ? '' : '✔✔ ') + c.lastMessage.content,
     },
-    onClick: c => this.router.navigate(['/chats', c.id.timestamp]),
+    onClick: c => this.router.navigate(['/chats', c.otherUser.id]),
   };
 
   constructor(
