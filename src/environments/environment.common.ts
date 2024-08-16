@@ -26,7 +26,7 @@ const envCommon = {
     },
   },
   debounceTimeMs: 500,
-  searchLimit: 1,
+  searchLimit: 10,
 };
 
 export default envCommon;

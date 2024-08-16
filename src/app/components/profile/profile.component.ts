@@ -1,10 +1,9 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, map } from 'rxjs';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
+import { UserDto, UserPostDto } from 'src/app/models';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { FeedService } from 'src/app/services/feed/feed.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -13,19 +12,19 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  user?: any;
-  posts$?: Observable<any[]>;
+  user?: UserDto;
+  posts: UserPostDto[] = [];
 
-  listOptions: ContentListOptions<any> = {
+  listOptions: ContentListOptions<UserPostDto> = {
     image: {
-      src: p => p.profilePicture,
-      alt: p => `${p.firstName} ${p.lastName}'s profile picture`,
+      src: _ => this.user?.profilePictureUrl ?? '',
+      alt: _ => `${this.user?.firstName} ${this.user?.lastName}'s profile picture`,
     },
     title: {
-      displayWith: p => `${p.firstName} ${p.lastName}`,
+      displayWith: _ => `${this.user?.firstName} ${this.user?.lastName}`,
     },
     date: {
-      displayWith: p => p.createdAt,
+      displayWith: p => p.createdAtUtc,
     },
     content: {
       displayWith: p => p.content,
@@ -33,15 +32,14 @@ export class ProfileComponent {
   };
 
   constructor(
-    public location: Location,
+    public readonly location: Location,
     private route: ActivatedRoute,
     private auth: AuthService,
     private userService: UserService,
-    private feedService: FeedService,
   ) {
     this.route.data.subscribe(({ user }) => {
-      this.user = user;
-      this.posts$ = this.feedService.getFeed().pipe(map(posts => posts.filter(p => p.userId === this.user?.id)));
+      this.user = user as UserDto;
+      this.userService.getUserPosts(this.user.id).subscribe(p => this.posts = p);
     });
   }
 
