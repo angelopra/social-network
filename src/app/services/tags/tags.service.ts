@@ -1,34 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { TagDto } from 'src/app/models';
+import envCommon from 'src/environments/environment.common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TagsService {
-  getAll(): Observable<string[]> {
-    return of(TAGS_MOCK);
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable<TagDto[]> {
+    return this.http.get<TagDto[]>(envCommon.apiRoutes.tag.getAll);
   }
 }
-
-const TAGS_MOCK: string[] = [
-  'coding',
-  'music',
-  'travel',
-  'food',
-  'fitness',
-  'photography',
-  'technology',
-  'gaming',
-  'reading',
-  'sports',
-  'movies',
-  'programming',
-  'yoga',
-  'nature',
-  'writing',
-  'fashion',
-  'travel',
-  'DIY',
-  'gardening',
-  'cooking',
-];

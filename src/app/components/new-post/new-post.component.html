@@ -10,16 +10,14 @@
     </mat-form-field>
     <div class="dropdown-container">
       <mat-form-field class="half-width">
-        <mat-select placeholder="Tags" formControlName="tags" multiple>
-          <mat-option *ngFor="let tag of availableTags" [value]="tag">{{
-            tag
-          }}</mat-option>
+        <mat-select placeholder="Tags" formControlName="tagsIds" multiple>
+          <mat-option *ngFor="let tag of availableTags" [value]="tag.id">{{ tag.name }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field class="half-width">
-        <mat-select placeholder="Privacy" formControlName="privacy">
-          <mat-option value="public">Public</mat-option>
-          <mat-option value="private">Private</mat-option>
+        <mat-select placeholder="Privacy" formControlName="isPrivate">
+          <mat-option [value]="false">Public</mat-option>
+          <mat-option [value]="true">Private</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
