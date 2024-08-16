@@ -5,10 +5,7 @@
     </mat-form-field>
   </div>
   
-  <div *ngFor="let user of results.items" class="profile" routerLink="/profile/{{user.id}}">
-    <img [src]="user.profilePictureUrl" alt="Profile Picture">
-    <span>{{ user.firstName }} {{ user.lastName }}</span>
-  </div>
+  <app-user-list [users]="results.items"></app-user-list>
 
   <div *ngIf="showLoadMore" (click)="loadMore()">Load more</div>
 </div>

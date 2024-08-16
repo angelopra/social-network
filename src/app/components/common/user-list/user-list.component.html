@@ -1,0 +1,4 @@
+<div *ngFor="let user of users" class="profile" routerLink="/profile/{{user.id}}">
+  <img [src]="user.profilePictureUrl" alt="Profile Picture">
+  <span>{{ user.firstName }} {{ user.lastName }}</span>
+</div>

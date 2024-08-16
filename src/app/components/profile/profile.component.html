@@ -4,7 +4,9 @@
     <div class="profile-info">
       <h2>{{ user.firstName }} {{ user.lastName }}</h2>
       <div *ngIf="user.id !== loggedUserId" class="button-container">
-        <button mat-raised-button color="primary" class="follow-button">Follow</button>
+        <button *ngIf="isFollowing" mat-raised-button color="secondary" class="follow-button" (click)="unfollow()">Unfollow</button>
+        <button *ngIf="!isFollowing && requestedToFollow" mat-raised-button color="secondary" class="follow-button" (click)="unfollow()">Requested</button>
+        <button *ngIf="!isFollowing && !requestedToFollow" mat-raised-button color="primary" class="follow-button" (click)="follow()">Follow</button>
         <button mat-raised-button class="message-button">Message</button>
       </div>
     </div>
@@ -33,7 +35,7 @@
     </mat-menu>
   </div>
 
-  <mat-tab-group>
+  <mat-tab-group animationDuration="10">
     <mat-tab label="Posts">
       <div class="tab-content">
         <app-content-list [items]="posts" [options]="listOptions"></app-content-list>
@@ -41,12 +43,12 @@
     </mat-tab>
     <mat-tab label="Followers">
       <div class="tab-content">
-        <!-- Add followers content here -->
+        <app-user-list [users]="user.followers"></app-user-list>
       </div>
     </mat-tab>
     <mat-tab label="Following">
       <div class="tab-content">
-        <!-- Add following content here -->
+        <app-user-list [users]="user.followings"></app-user-list>
       </div>
     </mat-tab>
   </mat-tab-group>

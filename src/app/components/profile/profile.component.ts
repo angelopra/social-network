@@ -1,9 +1,11 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { remove } from 'lodash-es';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
 import { UserDto, UserPostDto } from 'src/app/models';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { FollowService } from 'src/app/services/follow/follow.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -36,6 +38,7 @@ export class ProfileComponent {
     private route: ActivatedRoute,
     private auth: AuthService,
     private userService: UserService,
+    private followService: FollowService,
   ) {
     this.route.data.subscribe(({ user }) => {
       this.user = user as UserDto;
@@ -47,7 +50,36 @@ export class ProfileComponent {
     return this.userService.current?.id ?? '';
   }
 
+  get isFollowing(): boolean {
+    return !!this.user?.followers.some(f => f.id === this.userService.current?.id);
+  }
+
+  get requestedToFollow(): boolean {
+    return !!this.userService.current?.followRequests.ours.some(r => r.id === this.user?.id);
+  }
+
   logout(): void {
     this.auth.logout();
+  }
+
+  follow(): void {
+    if (!this.user) {
+      throw new Error('user should be defined');
+    }
+    const user = this.user;
+
+    this.followService.request(this.user.id).subscribe(() => this.userService.current?.followRequests.ours.push(user));
+  }
+
+  unfollow(): void {
+    if (!this.user) {
+      throw new Error('user should be defined');
+    }
+    const user = this.user;
+
+    this.followService.stopFollowing(user.id).subscribe(() => {
+      remove(user.followers, f => f.id === this.userService.current?.id);
+      remove(this.userService.current!.followRequests.ours, f => f.id === user.id);
+    });
   }
 }
