@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
 import { ExploreComponent } from './components/explore/explore.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { GroupsComponent } from './components/groups/groups.component';
-import { LoadingComponent } from './components/loading/loading.component';
+import { LoadingComponent } from './components/common/loading/loading.component';
 import { LoginComponent } from './components/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { NewPostComponent } from './components/new-post/new-post.component';
