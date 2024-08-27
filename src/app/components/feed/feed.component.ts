@@ -2,12 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
 import { PostDto } from 'src/app/models';
+import { FeedService } from 'src/app/services/feed/feed.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { NewPostComponent } from '../new-post/new-post.component';
-import { FeedService } from 'src/app/services/feed/feed.service';
 
 @Component({
   selector: 'app-feed',
@@ -18,7 +17,7 @@ export class FeedComponent implements OnDestroy {
   posts: PostDto[] = [];
   listOptions: ContentListOptions<PostDto> = {
     image: {
-      src: p => p.author.profilePictureUrl ?? '',
+      src: p => p.author.profilePictureUrl ?? 'assets/img/default-profile.jpg',
       alt: p => `${p.author.firstName} ${p.author.lastName}'s profile picture`,
       onClick: p => this.router.navigate(['/profile', p.author.id]),
     },
