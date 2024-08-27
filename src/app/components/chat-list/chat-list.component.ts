@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class ChatListComponent {
   listOptions: ContentListOptions<UserChatDto> = {
     image: {
-      src: c => c.otherUser.profilePictureUrl ?? '',
+      src: c => c.otherUser.profilePictureUrl ?? 'assets/img/default-profile.jpg',
       alt: c => `${c.otherUser.firstName} ${c.otherUser.lastName}'s picture`,
     },
     title: {

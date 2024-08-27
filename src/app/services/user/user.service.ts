@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, Observable, of, tap } from 'rxjs';
+import { Observable, share, tap } from 'rxjs';
 import { CurrentUserDto, ResumedUserDto, SearchResult, Slice, UserDto, UserPostDto, UserSearchQueryParams } from 'src/app/models';
 import envCommon from 'src/environments/environment.common';
 import { parseTemplate } from 'url-template';
@@ -11,6 +11,8 @@ import { AuthService } from '../auth/auth.service';
 })
 export class UserService {
   public current?: CurrentUserDto;
+
+  private currentRequest$?: Observable<CurrentUserDto>;
 
   constructor(private http: HttpClient, private authService: AuthService) {
     authService.loggedOut$.subscribe(() => this.current = undefined);
@@ -39,10 +41,14 @@ export class UserService {
   }
 
   getCurrent(): Observable<CurrentUserDto> {
-    return this.http.get<CurrentUserDto>(envCommon.apiRoutes.user.current).pipe(tap(u => this.current = u));
-  }
+    if (!this.currentRequest$) {
+      this.currentRequest$ = this.http.get<CurrentUserDto>(envCommon.apiRoutes.user.current).pipe(
+        tap(u => this.current = u),
+        tap(() => this.currentRequest$ = undefined),
+        share(),
+      );
+    }
 
-  createPost(): Observable<void> {
-    return of(void 0).pipe(delay(1000));
+    return this.currentRequest$;
   }
 }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, retry } from 'rxjs';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
 import { UserGroupDto } from 'src/app/models';
 import { UserService } from 'src/app/services/user/user.service';
@@ -13,7 +12,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class GroupsComponent {
   listOptions: ContentListOptions<UserGroupDto> = {
     image: {
-      src: p => p.pictureUrl ?? '',
+      src: p => p.pictureUrl ?? 'assets/img/default-group.jpg',
       alt: p => `${p.name} group picture`,
     },
     title: {

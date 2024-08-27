@@ -19,7 +19,7 @@ export class ProfileComponent {
 
   listOptions: ContentListOptions<UserPostDto> = {
     image: {
-      src: _ => this.user?.profilePictureUrl ?? '',
+      src: _ => this.user?.profilePictureUrl ?? 'assets/img/default-profile.jpg',
       alt: _ => `${this.user?.firstName} ${this.user?.lastName}'s profile picture`,
     },
     title: {
