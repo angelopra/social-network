@@ -3,7 +3,7 @@
     <img [src]="user.profilePictureUrl ?? 'assets/img/default-profile.jpg'" alt="{{ user.firstName }} {{ user.lastName }}'s Profile Picture" />
     <div class="profile-info">
       <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-      <div *ngIf="user.id !== loggedUserId" class="button-container">
+      <div *ngIf="!selfProfile" class="button-container">
         <button *ngIf="isFollowing" mat-raised-button color="secondary" class="follow-button" (click)="unfollow()">Unfollow</button>
         <button *ngIf="!isFollowing && requestedToFollow" mat-raised-button color="secondary" class="follow-button" (click)="unfollow()">Requested</button>
         <button *ngIf="!isFollowing && !requestedToFollow" mat-raised-button color="primary" class="follow-button" (click)="follow()">Follow</button>
@@ -17,10 +17,10 @@
   </div>
 
   <div>
-    <button *ngIf="user.id === loggedUserId" mat-fab color="outline" [matMenuTriggerFor]="menu" aria-label="Open options" class="options-button">
+    <button *ngIf="selfProfile" mat-fab color="outline" [matMenuTriggerFor]="menu" aria-label="Open options" class="options-button">
       <mat-icon>more_vert</mat-icon>
     </button>
-    <button *ngIf="user.id !== loggedUserId" mat-fab color="outline" aria-label="Go back" class="go-back-button" (click)="location.back()">
+    <button *ngIf="!selfProfile" mat-fab color="outline" aria-label="Go back" class="go-back-button" (click)="location.back()">
       <mat-icon>arrow_back</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
@@ -37,17 +37,25 @@
 
   <mat-tab-group animationDuration="120" dynamicHeight>
     <mat-tab label="Posts">
-      <div class="tab-content">
+      <div>
         <app-content-list [items]="posts" [options]="listOptions"></app-content-list>
       </div>
     </mat-tab>
     <mat-tab label="Followers">
-      <div class="tab-content">
-        <app-user-list [users]="user.followers"></app-user-list>
+      <div>
+        <mat-accordion *ngIf="selfProfile && followRequests.length > 0">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Pending requests</mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-user-list class="follow-requests" [users]="followRequests" [isFollowRequestList]="true"></app-user-list>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <app-user-list [users]="user.followers" [isFollowersList]="selfProfile"></app-user-list>
       </div>
     </mat-tab>
     <mat-tab label="Following">
-      <div class="tab-content">
+      <div>
         <app-user-list [users]="user.followings"></app-user-list>
       </div>
     </mat-tab>

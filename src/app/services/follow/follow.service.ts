@@ -1,33 +1,44 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { ResumedUserDto, UserDto } from 'src/app/models';
 import envCommon from 'src/environments/environment.common';
 import { parseTemplate } from 'url-template';
+import { UserService } from '../user/user.service';
+import { remove } from 'lodash-es';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FollowService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
-  request(followedId: string): Observable<void> {
-    const url = parseTemplate(envCommon.apiRoutes.follow.request).expand({ followedId });
-    return this.http.post<void>(url, null);
+  request(followed: UserDto): Observable<void> {
+    const url = parseTemplate(envCommon.apiRoutes.follow.request).expand({ followedId: followed.id });
+    return this.http.post<void>(url, null).pipe(tap(() => this.userService.current?.followRequests.ours.push(followed)));
   }
 
-  stopFollowing(followedId: string): Observable<void> {
-    const url = parseTemplate(envCommon.apiRoutes.follow.stopFollowing).expand({ followedId });
-    return this.http.delete<void>(url);
+  stopFollowing(followed: UserDto): Observable<void> {
+    const url = parseTemplate(envCommon.apiRoutes.follow.stopFollowing).expand({ followedId: followed.id });
+    return this.http.delete<void>(url).pipe(tap(() => {
+      remove(followed.followers, f => f.id === this.userService.current?.id);
+      remove(this.userService.current?.followRequests.ours ?? [], f => f.id === followed.id);
+    }));
   }
 
-  accept(followerId: string): Observable<void> {
-    const url = parseTemplate(envCommon.apiRoutes.follow.accept).expand({ followerId });
-    return this.http.put<void>(url, null);
+  accept(follower: ResumedUserDto): Observable<void> {
+    const url = parseTemplate(envCommon.apiRoutes.follow.accept).expand({ followerId: follower.id });
+    return this.http.put<void>(url, null).pipe(tap(() => {
+      remove(this.userService.current?.followRequests.theirs ?? [], f => f.id === follower.id);
+      this.userService.current?.followers?.unshift(follower);
+    }));
   }
 
-  deny(followerId: string): Observable<void> {
-    const url = parseTemplate(envCommon.apiRoutes.follow.deny).expand({ followerId });
-    return this.http.delete<void>(url);
+  deny(follower: ResumedUserDto): Observable<void> {
+    const url = parseTemplate(envCommon.apiRoutes.follow.deny).expand({ followerId: follower.id });
+    return this.http.delete<void>(url).pipe(tap(() => {
+      remove(this.userService.current?.followRequests.theirs ?? [], f => f.id === follower.id);
+      remove(this.userService.current?.followers ?? [], f => f.id === follower.id)
+    }));
   }
-
 }

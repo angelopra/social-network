@@ -1,4 +1,15 @@
-<div *ngFor="let user of users" class="profile" routerLink="/profile/{{user.id}}">
-  <img [src]="user.profilePictureUrl ?? 'assets/img/default-profile.jpg'" alt="Profile Picture">
-  <span>{{ user.firstName }} {{ user.lastName }}</span>
+<div *ngFor="let user of users" class="profile">
+  <div class="user-info" routerLink="/profile/{{user.id}}">
+    <img [src]="user.profilePictureUrl ?? 'assets/img/default-profile.jpg'" alt="Profile Picture">
+    <span>{{ user.firstName }} {{ user.lastName }}</span>
+  </div>
+
+  <div *ngIf="isFollowRequestList || isFollowersList" class="icon-button-container">
+    <button *ngIf="isFollowRequestList" mat-icon-button color="primary" (click)="accept(user, $event)">
+      <mat-icon>check</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="deny(user, $event)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 </div>
