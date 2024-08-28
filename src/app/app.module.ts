@@ -1,14 +1,13 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
 import { GoogleLoginProvider, GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -17,25 +16,26 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { routes } from './app-routing';
 import { AppComponent } from './app.component';
+import { ChatListComponent } from './components/chat-list/chat-list.component';
+import { ChatComponent } from './components/chat-list/chat/chat.component';
+import { ContentListComponent } from './components/common/content-list/content-list.component';
+import { LoadingComponent } from './components/common/loading/loading.component';
+import { UserListComponent } from './components/common/user-list/user-list.component';
 import { ExploreComponent } from './components/explore/explore.component';
 import { FeedComponent } from './components/feed/feed.component';
+import { GroupComponent } from './components/groups/group/group.component';
 import { GroupsComponent } from './components/groups/groups.component';
-import { LoadingComponent } from './components/common/loading/loading.component';
 import { LoginComponent } from './components/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { NewPostComponent } from './components/new-post/new-post.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
-import { ContentListComponent } from './components/common/content-list/content-list.component';
-import { ChatListComponent } from './components/chat-list/chat-list.component';
-import { UserListComponent } from './components/common/user-list/user-list.component';
-import { ChatComponent } from './components/chat-list/chat/chat.component';
-import { GroupComponent } from './components/groups/group/group.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +73,7 @@ import { GroupComponent } from './components/groups/group/group.component';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatExpansionModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
     RouterModule.forRoot(routes),

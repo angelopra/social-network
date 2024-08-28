@@ -1,9 +1,8 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { remove } from 'lodash-es';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
-import { UserDto, UserPostDto } from 'src/app/models';
+import { ResumedUserDto, UserDto, UserPostDto } from 'src/app/models';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FollowService } from 'src/app/services/follow/follow.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -46,8 +45,8 @@ export class ProfileComponent {
     });
   }
 
-  get loggedUserId(): string {
-    return this.userService.current?.id ?? '';
+  get selfProfile(): boolean {
+    return this.userService.current?.id === this.user?.id;
   }
 
   get isFollowing(): boolean {
@@ -56,6 +55,10 @@ export class ProfileComponent {
 
   get requestedToFollow(): boolean {
     return !!this.userService.current?.followRequests.ours.some(r => r.id === this.user?.id);
+  }
+
+  get followRequests(): ResumedUserDto[] {
+    return this.userService.current?.followRequests.theirs ?? [];
   }
 
   logout(): void {
@@ -68,7 +71,7 @@ export class ProfileComponent {
     }
     const user = this.user;
 
-    this.followService.request(this.user.id).subscribe(() => this.userService.current?.followRequests.ours.push(user));
+    this.followService.request(user).subscribe();
   }
 
   unfollow(): void {
@@ -77,9 +80,6 @@ export class ProfileComponent {
     }
     const user = this.user;
 
-    this.followService.stopFollowing(user.id).subscribe(() => {
-      remove(user.followers, f => f.id === this.userService.current?.id);
-      remove(this.userService.current!.followRequests.ours, f => f.id === user.id);
-    });
+    this.followService.stopFollowing(user).subscribe();
   }
 }

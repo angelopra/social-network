@@ -10,7 +10,10 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class UserService {
-  public current?: CurrentUserDto;
+  public current?: CurrentUserDto & {
+    followers?: ResumedUserDto[];
+    followings?: ResumedUserDto[];
+  };
 
   private currentRequest$?: Observable<CurrentUserDto>;
 
@@ -20,7 +23,12 @@ export class UserService {
 
   get(userId: string): Observable<UserDto> {
     const url = parseTemplate(envCommon.apiRoutes.user.getById).expand({ userId });
-    return this.http.get<UserDto>(url);
+    return this.http.get<UserDto>(url).pipe(tap(u => {
+      if (u.id === this.current?.id) {
+        this.current.followers = u.followers;
+        this.current.followings = u.followings;
+      }
+    }));
   }
 
   getUserPosts(userId: string, slice?: Slice): Observable<UserPostDto[]> {
