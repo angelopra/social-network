@@ -7,7 +7,7 @@ import {
 import { UserDto } from '../models/user/user.dto';
 import { UserService } from '../services/user/user.service';
 
-export const userResolver: ResolveFn<UserDto> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const userResolver: ResolveFn<UserDto> = (route: ActivatedRouteSnapshot, _: RouterStateSnapshot) => {
   const userService = inject(UserService);
   const userId = route.params['userId'];
   return userService.get(userId);

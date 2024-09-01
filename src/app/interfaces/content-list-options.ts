@@ -11,6 +11,7 @@ export interface ContentListOptions<T> {
   date: {
     onClick?: (item: T) => void;
     displayWith: (item: T) => Date;
+    format?: (item: T) => string;
   };
   content: {
     onClick?: (item: T) => void;
