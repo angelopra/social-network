@@ -16,7 +16,6 @@
   max-width: 75%;
   padding: 10px;
   border-radius: 20px;
-  display: inline-block;
   position: relative;
 }
 
@@ -30,19 +29,23 @@
   align-self: flex-start;
 }
 
-.message-content p {
-  margin: 0;
-  font-size: 14px;
+.message-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.message-time {
+  margin-left: 10px;
+  font-size: 15px;
   color: #333;
+  align-self: flex-end;
 }
 
 .message-time {
   font-size: 10px;
   color: #888;
   margin-top: 5px;
-  position: absolute;
-  bottom: 2px;
-  right: 10px;
 }
 
 .chat-header {
