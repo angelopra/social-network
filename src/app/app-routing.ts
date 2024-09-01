@@ -12,6 +12,7 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
 import { ChatComponent } from './components/chat-list/chat/chat.component';
 import { GroupComponent } from './components/groups/group/group.component';
+import { resumedUserResolver } from './resolvers/resumed-user.resolver';
 
 export const routes: Routes = [
   {
@@ -40,7 +41,8 @@ export const routes: Routes = [
             component: ChatListComponent,
           },
           {
-            path: ':otherUserId',
+            path: ':userId',
+            resolve: { receiver: resumedUserResolver },
             component: ChatComponent,
           },
         ],

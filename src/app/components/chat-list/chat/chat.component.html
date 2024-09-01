@@ -1,1 +1,30 @@
-<p>chat works!</p>
+<div class="chat-container">
+  <div *ngIf="receiver" class="chat-header">
+    <button mat-icon-button routerLink="..">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <img [src]="receiver.profilePictureUrl || 'assets/img/default-profile.jpg'" alt="{{receiver.firstName}}'s profile picture"/>
+    <span>{{ receiver.firstName }} {{ receiver.lastName }}</span>
+  </div>
+  
+  <div class="messages" #messagesDiv>
+    <!-- TODO: date cards -->
+    <div *ngFor="let message of messages" class="message" [ngClass]="{ 'own-message': !message.received }">
+      <div class="message-content">
+        <p>{{ message.content }}</p>
+        <span class="message-time">{{ message.createdAtUtc | date: 'HH:mm' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="message-input-container">
+    <input [formControl]="messageForm" (keyup.enter)="sendMessage()" placeholder="Type a message" class="message-input"/>
+    <button mat-icon-button (click)="sendMessage()" class="send-button" [disabled]="!messageForm.value">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+
+  <button *ngIf="isFarFromBottom" mat-fab color="outline" aria-label="Scroll down" class="scroll-down-button" (click)="scrollToBottom('smooth')">
+    <mat-icon>arrow_downward</mat-icon>
+  </button>
+</div>

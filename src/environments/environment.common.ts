@@ -1,6 +1,9 @@
 const envCommon = {
   // The routes ended in !AUTH! require a header with the idToken. This marker gets removed in the interceptor
   apiRoutes: {
+    chat: {
+      getMessages: '/chat/{otherUserId}!AUTH!',
+    },
     follow: {
       request: '/follow/{followedId}!AUTH!',
       stopFollowing: '/follow/{followedId}!AUTH!',

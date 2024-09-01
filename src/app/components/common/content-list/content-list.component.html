@@ -23,7 +23,7 @@
         (click)="options.date.onClick?.(item)"
         [ngClass]="{ clickable: !!options.date.onClick }"
         class="date"
-        >{{ options.date.displayWith(item) | date }}</span
+        >{{ options.date.displayWith(item) | date: options.date.format?.(item) }}</span
       >
       <p
         (click)="options.content.onClick?.(item)"
