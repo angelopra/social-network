@@ -17,6 +17,8 @@
     </div>
   </div>
 
+  <div style="z-index: 100;">ATENÇÃO! As mensagens - ainda - <strong>NÃO</strong> estão sendo armazenadas com criptografia</div>
+
   <div class="message-input-container">
     <input [formControl]="messageForm" (keyup.enter)="sendMessage()" placeholder="Type a message" class="message-input"/>
     <button mat-icon-button (click)="sendMessage()" class="send-button" [disabled]="!messageForm.value">

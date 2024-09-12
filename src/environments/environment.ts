@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:8080/api',
-  baseUrl: 'https://localhost:8080',
+  apiUrl: 'https://social-network-v0.azurewebsites.net/api',
+  baseUrl: 'https://social-network-v0.azurewebsites.net',
 };
