@@ -1,0 +1,19 @@
+.icon {
+  margin: 0;
+
+  ::ng-deep .mat-icon {
+    font-size: 70px;
+    height: 70px;
+    width: 70px;
+  }
+}
+
+div,
+button {
+  margin: 1em;
+  margin-bottom: 0;
+}
+
+span {
+  font-size: 150%;
+}

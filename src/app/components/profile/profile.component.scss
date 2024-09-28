@@ -51,6 +51,21 @@
   margin-right: 5px;
 }
 
+.about-section {
+  display: flex;
+  align-items: center;
+}
+
+.about-section p,
+.about-section textarea {
+  gap: 5px;
+  flex: 1;
+}
+
+.about-buttons {
+  margin-left: 10px;
+}
+
 .options-button,
 .go-back-button {
   position: fixed;

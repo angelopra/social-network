@@ -36,6 +36,7 @@ import { NewPostComponent } from './components/new-post/new-post.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
+import { ConfirmationDialogComponent } from './services/confirmation/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
     UserListComponent,
     ChatComponent,
     GroupComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

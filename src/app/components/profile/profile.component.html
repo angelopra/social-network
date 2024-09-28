@@ -1,9 +1,11 @@
 <div *ngIf="user" class="profile">
   <div class="profile-header">
     <img [src]="user.profilePictureUrl ?? 'assets/img/default-profile.jpg'" alt="{{ user.firstName }} {{ user.lastName }}'s Profile Picture" />
+
     <div class="profile-info">
       <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-      <div *ngIf="!selfProfile" class="button-container">
+
+      <div *ngIf="!isSelfProfile" class="button-container">
         <button *ngIf="isFollowing" mat-raised-button color="secondary" class="follow-button" (click)="unfollow()">Unfollow</button>
         <button *ngIf="!isFollowing && requestedToFollow" mat-raised-button color="secondary" class="follow-button" (click)="unfollow()">Requested</button>
         <button *ngIf="!isFollowing && !requestedToFollow" mat-raised-button color="primary" class="follow-button" (click)="follow()">Follow</button>
@@ -13,24 +15,36 @@
   </div>
   <div class="profile-details">
     <mat-chip class="tag" *ngFor="let tag of user.tags">{{ tag }}</mat-chip>
-    <p>{{ user.about }}</p>
+
+    <div class="about-section">
+      <p *ngIf="!isEditingAbout">{{ user.about }}</p>
+      <textarea *ngIf="isEditingAbout" [formControl]="aboutControl"></textarea>
+    
+      <div *ngIf="isSelfProfile" class="about-buttons">
+        <button mat-icon-button (click)="isEditingAbout = !isEditingAbout" *ngIf="!isEditingAbout">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button [disabled]="isLoadingAboutChanges" mat-icon-button (click)="isEditingAbout = !isEditingAbout; aboutControl.reset()" *ngIf="isEditingAbout">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button [disabled]="isLoadingAboutChanges" mat-icon-button (click)="saveAbout()" *ngIf="isEditingAbout">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
   </div>
 
   <div>
-    <button *ngIf="selfProfile" mat-fab color="outline" [matMenuTriggerFor]="menu" aria-label="Open options" class="options-button">
+    <button *ngIf="isSelfProfile" mat-fab color="outline" [matMenuTriggerFor]="menu" aria-label="Open options" class="options-button">
       <mat-icon>more_vert</mat-icon>
     </button>
-    <button *ngIf="!selfProfile" mat-fab color="outline" aria-label="Go back" class="go-back-button" (click)="location.back()">
+    <button *ngIf="!isSelfProfile" mat-fab color="outline" aria-label="Go back" class="go-back-button" (click)="location.back()">
       <mat-icon>arrow_back</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Logout</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>settings</mat-icon>
-        <span>Settings</span>
       </button>
     </mat-menu>
   </div>
@@ -43,7 +57,7 @@
     </mat-tab>
     <mat-tab label="Followers">
       <div>
-        <mat-accordion *ngIf="selfProfile && followRequests.length > 0">
+        <mat-accordion *ngIf="isSelfProfile && followRequests.length > 0">
           <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
               <mat-panel-title>Pending requests</mat-panel-title>
@@ -51,7 +65,7 @@
             <app-user-list class="follow-requests" [users]="followRequests" [isFollowRequestList]="true"></app-user-list>
           </mat-expansion-panel>
         </mat-accordion>
-        <app-user-list [users]="user.followers" [isFollowersList]="selfProfile"></app-user-list>
+        <app-user-list [users]="user.followers" [isFollowersList]="isSelfProfile"></app-user-list>
       </div>
     </mat-tab>
     <mat-tab label="Following">
