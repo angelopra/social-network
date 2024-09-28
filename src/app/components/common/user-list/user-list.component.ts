@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ResumedUserDto } from 'src/app/models';
+import { ConfirmationService } from 'src/app/services/confirmation/confirmation.service';
 import { FollowService } from 'src/app/services/follow/follow.service';
 
 @Component({
@@ -12,7 +13,10 @@ export class UserListComponent {
   @Input() isFollowRequestList = false;
   @Input() isFollowersList = false;
 
-  constructor(private followService: FollowService) {}
+  constructor(
+    private followService: FollowService,
+    private confirmationService: ConfirmationService,
+  ) {}
 
   accept(user: ResumedUserDto, event: MouseEvent): void {
     event.stopPropagation();
@@ -23,6 +27,11 @@ export class UserListComponent {
   deny(user: ResumedUserDto, event: MouseEvent): void {
     event.stopPropagation();
 
-    this.followService.deny(user).subscribe();
+    this.confirmationService.fire(
+      () => {
+        this.followService.deny(user).subscribe();
+      },
+      { title: 'Are you sure you want to remove this follower?' },
+    );
   }
 }
