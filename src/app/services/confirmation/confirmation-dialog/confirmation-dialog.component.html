@@ -1,0 +1,25 @@
+<mat-dialog-content>
+  <div class="text-center">
+    <div *ngIf="data?.icon" class="icon">
+      <mat-icon>{{ data?.icon }}</mat-icon>
+    </div>
+    <div *ngIf="data && data.title">
+      <h2>{{ data.title }}</h2>
+    </div>
+    <div *ngIf="data && data.text">
+      <span>{{ data.text }}</span>
+    </div>
+    <form>
+      <div>
+        <button *ngIf="showConfirmButton" mat-raised-button color="primary" (click)="dialogRef.close(true)" type="button">
+          <mat-icon class="button-icon">check</mat-icon>
+          {{ data?.confirmText ?? 'Yes' }}
+        </button>
+        <button *ngIf="showCancelButton" mat-raised-button (click)="dialogRef.close(false)" type="button">
+          <mat-icon class="button-icon">close</mat-icon>
+          {{ data?.cancelText ?? 'No' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

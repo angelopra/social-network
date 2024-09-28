@@ -50,7 +50,7 @@ export class UserService {
 
   getCurrent(): Observable<CurrentUserDto> {
     if (!this.currentRequest$) {
-      this.currentRequest$ = this.http.get<CurrentUserDto>(envCommon.apiRoutes.user.current).pipe(
+      this.currentRequest$ = this.http.get<CurrentUserDto>(envCommon.apiRoutes.user.current.get).pipe(
         tap(u => this.current = u),
         tap(() => this.currentRequest$ = undefined),
         share(),
@@ -58,5 +58,9 @@ export class UserService {
     }
 
     return this.currentRequest$;
+  }
+
+  updateCurrentAbout(newAbout: string): Observable<void> {
+    return this.http.put<void>(envCommon.apiRoutes.user.current.updateAbout, { newAbout });
   }
 }

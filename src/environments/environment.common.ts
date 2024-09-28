@@ -25,7 +25,11 @@ const envCommon = {
       search: '/user',
       getById: '/user/{userId}',
       posts: '/user/{userId}/posts',
-      current: '/user/current!AUTH!',
+      current: {
+        get: '/user/current!AUTH!',
+        updateAbout: '/user/current/about!AUTH!',
+        updateTags: '/user/current/tags!AUTH!',
+      },
       feed: '/user/current/feed!AUTH!',
     },
   },

@@ -1,9 +1,11 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
 import { ResumedUserDto, UserDto, UserPostDto } from 'src/app/models';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ConfirmationService } from 'src/app/services/confirmation/confirmation.service';
 import { FollowService } from 'src/app/services/follow/follow.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -15,6 +17,9 @@ import { UserService } from 'src/app/services/user/user.service';
 export class ProfileComponent {
   user?: UserDto;
   posts: UserPostDto[] = [];
+  isEditingAbout = false;
+  isLoadingAboutChanges = false;
+  aboutControl = this.nnfb.control('');
 
   listOptions: ContentListOptions<UserPostDto> = {
     image: {
@@ -38,14 +43,17 @@ export class ProfileComponent {
     private auth: AuthService,
     private userService: UserService,
     private followService: FollowService,
+    private nnfb: NonNullableFormBuilder,
+    private confirmationService: ConfirmationService,
   ) {
     this.route.data.subscribe(({ user }) => {
       this.user = user as UserDto;
       this.userService.getUserPosts(this.user.id).subscribe(p => this.posts = p);
+      this.aboutControl = nnfb.control(this.user.about ?? '');
     });
   }
 
-  get selfProfile(): boolean {
+  get isSelfProfile(): boolean {
     return this.userService.current?.id === this.user?.id;
   }
 
@@ -62,16 +70,20 @@ export class ProfileComponent {
   }
 
   logout(): void {
-    this.auth.logout();
+    this.confirmationService.fire(
+      () => {
+        this.auth.logout();
+      },
+      { title: 'Logout?' },
+    );
   }
 
   follow(): void {
     if (!this.user) {
       throw new Error('user should be defined');
     }
-    const user = this.user;
 
-    this.followService.request(user).subscribe();
+    this.followService.request(this.user).subscribe();
   }
 
   unfollow(): void {
@@ -80,6 +92,31 @@ export class ProfileComponent {
     }
     const user = this.user;
 
-    this.followService.stopFollowing(user).subscribe();
+    this.confirmationService.fire(
+      () => {
+        this.followService.stopFollowing(user).subscribe();
+      },
+      { title: 'Are you sure you want to unfollow this user?' },
+    );
+  }
+
+  saveAbout(): void {
+    if (!this.user) {
+      throw new Error('user should be defined');
+    }
+    const user = this.user;
+    const newAbout = this.aboutControl.value;
+
+    this.confirmationService.fire(
+      () => {
+        this.isLoadingAboutChanges = true;
+        this.userService.updateCurrentAbout(newAbout).subscribe(() => {
+          this.isEditingAbout = false;
+          user.about = newAbout;
+          this.aboutControl = this.nnfb.control(newAbout);
+        }).add(() => this.isLoadingAboutChanges = false);
+      },
+      { title: 'Are you sure you want to update your profile?' },
+    )
   }
 }
