@@ -1,47 +1,56 @@
-import { ViewportScroller } from '@angular/common';
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, tap } from 'rxjs';
+import { format, parseISO } from 'date-fns';
+import { groupBy } from 'lodash-es';
+import { map, switchMap } from 'rxjs';
 import { MessageDto, ResumedUserDto } from 'src/app/models';
 import { ChatService } from 'src/app/services/chat/chat.service';
 
 const scrollThreshold = 150;
+
+type GroupedMessages = { messages: MessageDto[], date: Date }[];
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent {
+export class ChatComponent implements AfterViewChecked {
   @ViewChild('messagesDiv') messagesDiv?: ElementRef;
 
-  messages: MessageDto[] = [];
+  groupedMessages: GroupedMessages = [];
   messageForm = new FormControl('');
   receiver?: ResumedUserDto;
   isFarFromBottom = false;
+  needsScroll = false;
 
-  constructor(private route: ActivatedRoute, private chatService: ChatService, private scroller: ViewportScroller) {
+  constructor(private route: ActivatedRoute, private chatService: ChatService) {
     this.route.data.pipe(
       map(({ receiver }) => {
         this.receiver = receiver as ResumedUserDto;
         return this.receiver;
       }),
       switchMap(r => chatService.getMessages(r.id))
-    ).subscribe(m => {
-      this.messages = m;
+    ).subscribe(messages => {
+      this.groupedMessages = this.groupMessagesByDate(messages);
       setTimeout(() => this.scrollToBottom());
     });
 
     chatService.newMessages.subscribe(newMessage => {
-      if (newMessage.senderId === this.receiver?.id) {
-        this.pushMessage({
-          content: newMessage.message,
-          received: true,
-          createdAtUtc: (new Date()).toISOString(),
-        });
-      }
+      this.pushMessage({
+        content: newMessage.message,
+        received: newMessage.senderId === this.receiver?.id,
+        createdAtUtc: (new Date()).toISOString(),
+      });
     });
+  }
+
+  ngAfterViewChecked(): void {
+    if (!this.isFarFromBottom && this.needsScroll) {
+      this.scrollToBottom();
+    }
+    this.needsScroll = false;
   }
 
   @HostListener('window:scroll')
@@ -54,14 +63,16 @@ export class ChatComponent {
       throw new Error("receiver should be defined");
     }
 
-    if (this.messageForm.value) {
+    const newMessage = this.messageForm.getRawValue();
+
+    if (newMessage) {
       this.pushMessage({
-        content: this.messageForm.value,
+        content: newMessage,
         received: false,
         createdAtUtc: (new Date()).toISOString(),
       });
 
-      this.chatService.send(this.receiver.id, this.messageForm.value);
+      this.chatService.send(this.receiver.id, newMessage);
 
       this.messageForm.reset();
     }
@@ -75,12 +86,17 @@ export class ChatComponent {
   }
 
   private pushMessage(message: MessageDto): void {
-    this.messages.push(message);
+    // this.messages.push(message);
     setTimeout(() => {
       this.setIsFarFromBottom();
-      if (!this.isFarFromBottom) {
-        this.scrollToBottom();
-      }
+      this.needsScroll = true;
     });
+  }
+
+  private groupMessagesByDate(messages: MessageDto[]): GroupedMessages {
+    return Object.entries(groupBy(messages, m => format(parseISO(m.createdAtUtc), 'yyyy-MM-dd'))).map(([dateStr, messages]) => ({
+      date: parseISO(dateStr),
+      messages,
+    }));
   }
 }

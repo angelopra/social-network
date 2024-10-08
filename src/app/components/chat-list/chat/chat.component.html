@@ -3,16 +3,20 @@
     <button mat-icon-button routerLink="..">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <img [src]="receiver.profilePictureUrl || 'assets/img/default-profile.jpg'" alt="{{receiver.firstName}}'s profile picture"/>
-    <span>{{ receiver.firstName }} {{ receiver.lastName }}</span>
+    <div class="chatter" routerLink="/profile/{{receiver.id}}">
+      <img [src]="receiver.profilePictureUrl || 'assets/img/default-profile.jpg'" alt="{{receiver.firstName}}'s profile picture"/>
+      <span>{{ receiver.firstName }} {{ receiver.lastName }}</span>
+    </div>
   </div>
   
-  <div class="messages" #messagesDiv>
-    <!-- TODO: date cards -->
-    <div *ngFor="let message of messages" class="message" [ngClass]="{ 'own-message': !message.received }">
-      <div class="message-content">
-        <span>{{ message.content }}</span>
-        <span class="message-time">{{ message.createdAtUtc | date: 'HH:mm' }}</span>
+  <div #messagesDiv>
+    <div class="messages" *ngFor="let group of groupedMessages; index as i" [ngClass]="{ spaced: i === 0 }">
+      <div class="message-date">{{ group.date | chatDate }}</div>
+      <div *ngFor="let message of group.messages" class="message" [ngClass]="{ 'own-message': !message.received }">
+        <div class="message-content">
+          <span>{{ message.content }}</span>
+          <span class="message-time">{{ message.createdAtUtc | date: 'HH:mm' }}</span>
+        </div>
       </div>
     </div>
   </div>
