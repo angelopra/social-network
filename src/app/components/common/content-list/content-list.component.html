@@ -17,13 +17,22 @@
         (click)="options.title.onClick?.(item)"
         [ngClass]="{ clickable: !!options.title.onClick }"
         class="title"
-        >{{ options.title.displayWith(item) }}</a
+      >
+        {{ options.title.displayWith(item) }}
+      </a
       >
       <span
         (click)="options.date.onClick?.(item)"
         [ngClass]="{ clickable: !!options.date.onClick }"
         class="date"
-        >{{ options.date.displayWith(item) | date: options.date.format?.(item) }}</span
+      >
+        <a *ngIf="options.date.format !== null; else dateStr">
+          {{ options.date.displayWith(item) | date: options.date.format?.(item) }}
+        </a>
+        <ng-template #dateStr>
+          {{ options.date.displayWith(item) }}
+        </ng-template>
+      </span
       >
       <p
         (click)="options.content.onClick?.(item)"

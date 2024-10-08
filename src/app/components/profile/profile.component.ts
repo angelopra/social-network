@@ -92,12 +92,16 @@ export class ProfileComponent {
     }
     const user = this.user;
 
-    this.confirmationService.fire(
-      () => {
-        this.followService.stopFollowing(user).subscribe();
-      },
-      { title: 'Are you sure you want to unfollow this user?' },
-    );
+    if (this.isFollowing) {
+      this.confirmationService.fire(
+        () => {
+          this.followService.stopFollowing(user).subscribe();
+        },
+        { title: 'Are you sure you want to unfollow this user?' },
+      );
+    } else {
+      this.followService.stopFollowing(user).subscribe();
+    }
   }
 
   saveAbout(): void {

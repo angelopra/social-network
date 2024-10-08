@@ -10,8 +10,8 @@ export interface ContentListOptions<T> {
   };
   date: {
     onClick?: (item: T) => void;
-    displayWith: (item: T) => Date;
-    format?: (item: T) => string;
+    displayWith: (item: T) => Date | string;
+    format?: ((item: T) => string) | null;
   };
   content: {
     onClick?: (item: T) => void;

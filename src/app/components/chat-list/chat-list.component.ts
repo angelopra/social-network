@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { isToday, parseISO } from 'date-fns';
+import { format, isThisWeek, isToday, isYesterday, parseISO } from 'date-fns';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
 import { UserChatDto } from 'src/app/models';
-import { ChatService } from 'src/app/services/chat/chat.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -21,8 +20,8 @@ export class ChatListComponent {
       displayWith: c => `${c.otherUser.firstName} ${c.otherUser.lastName}`,
     },
     date: {
-      displayWith: c => parseISO(c.lastMessage.createdAtUtc),
-      format: getDateFormat,
+      displayWith: displayDate,
+      format: null,
     },
     content: {
       displayWith: c => (c.lastMessage.received ? '' : '✔✔ ') + c.lastMessage.content,
@@ -40,9 +39,16 @@ export class ChatListComponent {
   }
 }
 
-function getDateFormat(chat: UserChatDto): string {
-  if (isToday(parseISO(chat.lastMessage.createdAtUtc))) {
-    return 'HH:mm';
+function displayDate(chat: UserChatDto): string {
+  const date = parseISO(chat.lastMessage.createdAtUtc);
+  if (isToday(date)) {
+    return format(date, 'HH:mm');
   }
-  return 'shortDate';
+  if (isYesterday(date)) {
+    return 'Yesterday';
+  }
+  if (isThisWeek(date)) {
+    return format(date, 'EEEE');
+  }
+  return format(date, 'P');
 }

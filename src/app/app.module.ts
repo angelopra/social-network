@@ -37,6 +37,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
 import { ConfirmationDialogComponent } from './services/confirmation/confirmation-dialog/confirmation-dialog.component';
+import { ChatDatePipe } from './components/chat-list/chat/chat-date.pipe';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ConfirmationDialogComponent } from './services/confirmation/confirmatio
     ChatComponent,
     GroupComponent,
     ConfirmationDialogComponent,
+    ChatDatePipe,
   ],
   imports: [
     BrowserModule,
