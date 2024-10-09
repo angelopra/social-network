@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { format, parseISO } from 'date-fns';
+import { compareAsc, format, isSameDay, parseISO } from 'date-fns';
 import { groupBy } from 'lodash-es';
 import { map, switchMap } from 'rxjs';
 import { MessageDto, ResumedUserDto } from 'src/app/models';
@@ -63,19 +63,19 @@ export class ChatComponent implements AfterViewChecked {
       throw new Error("receiver should be defined");
     }
 
-    const newMessage = this.messageForm.getRawValue();
+    const newMessage = this.messageForm.getRawValue()?.trim();
 
     if (newMessage) {
+      this.chatService.send(this.receiver.id, newMessage);
+
       this.pushMessage({
         content: newMessage,
         received: false,
         createdAtUtc: (new Date()).toISOString(),
       });
-
-      this.chatService.send(this.receiver.id, newMessage);
-
-      this.messageForm.reset();
     }
+    
+    this.messageForm.reset();
   }
 
   scrollToBottom(behavior?: ScrollBehavior): void {
@@ -86,7 +86,17 @@ export class ChatComponent implements AfterViewChecked {
   }
 
   private pushMessage(message: MessageDto): void {
-    // this.messages.push(message);
+    const messageDate = parseISO(message.createdAtUtc);
+    const group = this.groupedMessages.find(g => isSameDay(g.date, messageDate));
+
+    if (group) {
+      group.messages.push(message);
+      group.messages.sort((a, b) => compareAsc(parseISO(a.createdAtUtc), parseISO(b.createdAtUtc)))
+    } else {
+      this.groupedMessages.push({ date: parseISO(format(messageDate, 'yyyy-MM-dd')), messages: [message] });
+      this.groupedMessages.sort((a, b) => compareAsc(a.date, b.date));
+    }
+
     setTimeout(() => {
       this.setIsFarFromBottom();
       this.needsScroll = true;
