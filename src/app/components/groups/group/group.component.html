@@ -1,1 +1,25 @@
-<p>group works!</p>
+<div *ngIf="group" class="group-container">
+  <div class="header">
+    <button mat-icon-button routerLink="..">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="title" routerLink="details">
+      <img [src]="group.pictureUrl || 'assets/img/default-group.jpg'" alt="{{group.name}}'s picture"/>
+      <span>{{ group.name }}</span>
+    </div>
+  </div>
+
+  <div class="posts">
+    <app-content-list [options]="listOptions" [items]="posts"></app-content-list>
+  
+    <app-loading *ngIf="loader.isLoading"></app-loading>
+  </div>
+
+  <button
+    mat-fab
+    color="outline"
+    aria-label="Create new post"
+    class="add-post-button"
+    (click)="openPostCreation()"
+  ><mat-icon>add</mat-icon></button>
+</div>

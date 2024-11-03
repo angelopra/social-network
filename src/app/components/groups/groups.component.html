@@ -1,7 +1,7 @@
 <app-input-text [search]="true" [inputControl]="filter" floatingLabel="Search groups"></app-input-text>
 
 <div class="group-list-container">
-  <mat-card *ngFor="let group of groups" class="group-card" [routerLink]="group.id">
+  <mat-card *ngFor="let group of groups" class="group-card" (click)="navToGroup(group)">
     <mat-card-header>
       <div mat-card-avatar class="group-image">
         <img [src]="group.pictureUrl || 'assets/img/default-group.jpg'" alt="{{ group.name }} group image" />

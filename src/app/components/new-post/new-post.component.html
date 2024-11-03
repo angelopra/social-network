@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Create a New Post</h2>
+<h2 mat-dialog-title>Create new {{ groupId ? 'group' : '' }} post</h2>
 <mat-dialog-content>
   <form [formGroup]="postForm">
     <mat-form-field class="full-width">
@@ -10,7 +10,7 @@
     </mat-form-field>
     <div>
       <app-tags-selector [tagsIdsControl]="postForm.controls.tagsIds"></app-tags-selector>
-      <mat-form-field class="full-width">
+      <mat-form-field *ngIf="!groupId" class="full-width">
         <mat-select placeholder="Privacy" formControlName="isPrivate">
           <mat-option [value]="false">Public</mat-option>
           <mat-option [value]="true">Private</mat-option>

@@ -18,7 +18,7 @@ export class FeedService {
     return this.http.get<SearchResult<PostDto>>(envCommon.apiRoutes.user.feed, options);
   }
 
-  createPost(newPost: CreatePostDto): Observable<string> {
-    return this.http.post<string>(envCommon.apiRoutes.post.create, newPost);
+  createPost(newPost: CreatePostDto): Observable<PostDto> {
+    return this.http.post<PostDto>(envCommon.apiRoutes.post.create, newPost);
   }
 }

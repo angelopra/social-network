@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Loader } from 'src/app/utils/loader';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoadingService {
-  private loadingCount = 0;
+  private loader = new Loader();
 
   get isLoading(): boolean {
-    return this.loadingCount > 0;
+    return this.loader.isLoading;
   }
 
   set isLoading(val: boolean) {
-   this.loadingCount += val ? 1 : -1;
-   if (this.loadingCount < 0) this.loadingCount = 0;
+   this.loader.isLoading = val;
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { format, isThisWeek, isToday, isYesterday, parseISO } from 'date-fns';
+import { CHATS_URL } from 'src/app/app.config';
 import { ContentListOptions } from 'src/app/interfaces/content-list-options';
 import { UserChatDto } from 'src/app/models';
 import { UserService } from 'src/app/services/user/user.service';
@@ -26,7 +27,7 @@ export class ChatListComponent {
     content: {
       displayWith: c => (c.lastMessage.received ? '' : '✔✔ ') + c.lastMessage.content,
     },
-    onClick: c => this.router.navigate(['/chats', c.otherUser.id], { state: { resumedUser: c.otherUser } }),
+    onClick: c => this.router.navigate([CHATS_URL, c.otherUser.id], { state: { resumedUser: c.otherUser } }),
   };
 
   constructor(

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-post',
@@ -17,6 +17,7 @@ export class NewPostComponent {
   constructor(
     public dialogRef: MatDialogRef<NewPostComponent>,
     private nnfb: NonNullableFormBuilder,
+    @Inject(MAT_DIALOG_DATA) public groupId?: string,
   ) {}
 
   onCancel(): void {
@@ -25,7 +26,7 @@ export class NewPostComponent {
 
   onSubmit(): void {
     if (this.postForm.valid) {
-      this.dialogRef.close(this.postForm.getRawValue());
+      this.dialogRef.close({ ...this.postForm.getRawValue(), groupId: this.groupId });
     }
   }
 }
