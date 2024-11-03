@@ -4,14 +4,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoadingService {
-  private _isLoading = false;
+  private loadingCount = 0;
 
   get isLoading(): boolean {
-    return this._isLoading;
+    return this.loadingCount > 0;
   }
 
   set isLoading(val: boolean) {
-    // TODO: use counter
-    this._isLoading = val;
+   this.loadingCount += val ? 1 : -1;
+   if (this.loadingCount < 0) this.loadingCount = 0;
   }
 }

@@ -1,8 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TagDto } from 'src/app/models';
-import { TagsService } from 'src/app/services/tags/tags.service';
+import { Component } from '@angular/core';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-post',
@@ -10,21 +8,16 @@ import { TagsService } from 'src/app/services/tags/tags.service';
   styleUrls: ['./new-post.component.scss']
 })
 export class NewPostComponent {
-  postForm = this.fb.group({
+  postForm = this.nnfb.group({
     content: ['', Validators.required],
-    tagsIds: [[]],
-    isPrivate: true
+    tagsIds: this.nnfb.control<string[]>([]),
+    isPrivate: true,
   });
-  availableTags: TagDto[] = [];
-
+  
   constructor(
     public dialogRef: MatDialogRef<NewPostComponent>,
-    private fb: FormBuilder,
-    private tagsService: TagsService,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.tagsService.getAll().subscribe(t => this.availableTags = t);
-  }
+    private nnfb: NonNullableFormBuilder,
+  ) {}
 
   onCancel(): void {
     this.dialogRef.close();
@@ -32,7 +25,7 @@ export class NewPostComponent {
 
   onSubmit(): void {
     if (this.postForm.valid) {
-      this.dialogRef.close(this.postForm.value);
+      this.dialogRef.close(this.postForm.getRawValue());
     }
   }
 }
