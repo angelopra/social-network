@@ -2,9 +2,9 @@
   <h2 class="app-title">Linkup</h2>
   <app-content-list [options]="listOptions" [items]="posts"></app-content-list>
 
-  <app-loading *ngIf="isLoading"></app-loading>
+  <app-loading *ngIf="loader.isLoading"></app-loading>
 
-  <div *ngIf="posts.length === 0 && !isLoading" class="not-found">
+  <div *ngIf="posts.length === 0 && !loader.isLoading" class="not-found">
     <h2>Your feed is empty...</h2>
     <p>
       Start following people to see their posts here!

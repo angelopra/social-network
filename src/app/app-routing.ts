@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { CHATS_URL, HOME_URL, LOGIN_URL } from './app.config';
+import { CHATS_URL, GROUPS_URL, HOME_URL, LOGIN_URL } from './app.config';
 import { FeedComponent } from './components/feed/feed.component';
 import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -14,6 +14,7 @@ import { ChatComponent } from './components/chat-list/chat/chat.component';
 import { GroupComponent } from './components/groups/group/group.component';
 import { resumedUserResolver } from './resolvers/resumed-user.resolver';
 import { currentUserResolver } from './resolvers/current-user.resolver';
+import { userGroupResolver } from './resolvers/user-group.resolver';
 
 const showMenu = true;
 export const routes: Routes = [
@@ -64,7 +65,7 @@ export const routes: Routes = [
         component: ExploreComponent,
       },
       {
-        path: 'groups',
+        path: GROUPS_URL,
         data: { showMenu },
         children: [
           {
@@ -73,6 +74,7 @@ export const routes: Routes = [
           },
           {
             path: ':groupId',
+            resolve: { userGroup: userGroupResolver },
             component: GroupComponent,
           },
         ],

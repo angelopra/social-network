@@ -7,6 +7,7 @@ import { CreateGroupDialogComponent } from './create-group-dialog/create-group-d
 import { GroupService } from 'src/app/services/group/group.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { GROUPS_URL } from 'src/app/app.config';
 
 @Component({
   selector: 'app-groups',
@@ -46,5 +47,9 @@ export class GroupsComponent {
         });
       }
     });
+  }
+
+  navToGroup(userGroup: UserGroupDto): void {
+    this.router.navigate([GROUPS_URL, userGroup.id], { state: { userGroup } })
   }
 }

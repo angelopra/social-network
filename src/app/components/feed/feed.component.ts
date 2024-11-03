@@ -7,6 +7,7 @@ import { PostDto } from 'src/app/models';
 import { FeedService } from 'src/app/services/feed/feed.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { NewPostComponent } from '../new-post/new-post.component';
+import { Loader } from 'src/app/utils/loader';
 
 @Component({
   selector: 'app-feed',
@@ -32,7 +33,8 @@ export class FeedComponent implements OnDestroy {
       displayWith: p => p.content,
     },
   };
-  isLoading = false;
+
+  readonly loader = new Loader();
 
   constructor(
     private feedService: FeedService,
@@ -52,7 +54,8 @@ export class FeedComponent implements OnDestroy {
     this.dialog.open(NewPostComponent).afterClosed().subscribe(res => {
       if (res) {
         this.loadingService.isLoading = true;
-        this.feedService.createPost(res).subscribe(() => {
+        this.feedService.createPost(res).subscribe(createdPost => {
+          this.posts.unshift(createdPost);
           this.snackBar.open('Post created successfully!', '✓', { verticalPosition: 'top', duration: 3000 });
         }).add(() => this.loadingService.isLoading = false);
       }
@@ -60,7 +63,7 @@ export class FeedComponent implements OnDestroy {
   }
 
   private loadMore(): void {
-    this.isLoading = true;
-    this.feedService.get().subscribe(p => this.posts = p.items).add(() => this.isLoading = false);
+    this.loader.isLoading = true;
+    this.feedService.get().subscribe(p => this.posts = p.items).add(() => this.loader.isLoading = false);
   }
 }
