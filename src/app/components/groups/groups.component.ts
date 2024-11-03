@@ -43,7 +43,7 @@ export class GroupsComponent {
         this.loadingService.isLoading = true;
         this.groupService.create(newGroup).subscribe(newGroupId => {
           this.loadingService.isLoading = false;
-          this.router.navigate([newGroupId], { relativeTo: this.activatedRoute });
+          this.navToGroup({ ...newGroup, id: newGroupId, createdAtUtc: new Date() });
         });
       }
     });
