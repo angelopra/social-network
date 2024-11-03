@@ -43,7 +43,9 @@ export class GroupsComponent {
         this.loadingService.isLoading = true;
         this.groupService.create(newGroup).subscribe(newGroupId => {
           this.loadingService.isLoading = false;
-          this.navToGroup({ ...newGroup, id: newGroupId, createdAtUtc: new Date() });
+          const userGroup = { ...newGroup, id: newGroupId, createdAtUtc: new Date() };
+          this.userService.current?.groups.unshift(userGroup);
+          this.navToGroup(userGroup);
         });
       }
     });
