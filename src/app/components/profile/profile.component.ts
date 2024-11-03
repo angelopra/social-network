@@ -48,7 +48,7 @@ export class ProfileComponent {
   ) {
     this.route.data.subscribe(({ user }) => {
       this.user = user as UserDto;
-      this.userService.getUserPosts(this.user.id).subscribe(p => this.posts = p);
+      this.userService.getUserPosts(this.user.id).subscribe(p => this.posts = p.items);
       this.aboutControl = nnfb.control(this.user.about ?? '');
     });
   }

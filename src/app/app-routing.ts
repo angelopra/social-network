@@ -13,6 +13,7 @@ import { ChatListComponent } from './components/chat-list/chat-list.component';
 import { ChatComponent } from './components/chat-list/chat/chat.component';
 import { GroupComponent } from './components/groups/group/group.component';
 import { resumedUserResolver } from './resolvers/resumed-user.resolver';
+import { currentUserResolver } from './resolvers/current-user.resolver';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivateChild: [authGuard],
+    resolve: { currentUser: currentUserResolver },
     children: [
       {
         path: 'home',

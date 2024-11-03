@@ -31,7 +31,7 @@ export class UserService {
     }));
   }
 
-  getUserPosts(userId: string, slice?: Slice): Observable<UserPostDto[]> {
+  getUserPosts(userId: string, slice?: Slice): Observable<SearchResult<UserPostDto>> {
     let url = parseTemplate(envCommon.apiRoutes.user.posts).expand({ userId });
 
     if (this.authService.idToken) {
@@ -40,11 +40,12 @@ export class UserService {
 
     const options = { params: new HttpParams().appendAll({ ...slice }) };
 
-    return this.http.get<UserPostDto[]>(url, options);
+    return this.http.get<SearchResult<UserPostDto>>(url, options);
   }
 
   search(params: UserSearchQueryParams): Observable<SearchResult<ResumedUserDto>> {
     const options = { params: new HttpParams().appendAll({ ...params }) };
+    
     return this.http.get<SearchResult<ResumedUserDto>>(envCommon.apiRoutes.user.search, options);
   }
 
