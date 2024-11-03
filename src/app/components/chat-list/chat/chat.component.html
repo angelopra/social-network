@@ -9,8 +9,8 @@
     </div>
   </div>
   
-  <div #messagesDiv>
-    <div class="messages" *ngFor="let group of groupedMessages; index as i" [ngClass]="{ spaced: i === 0 }">
+  <div #messagesDiv class="messages">
+    <div class="messages-group" *ngFor="let group of groupedMessages; index as i" [ngClass]="{ spaced: i === 0 }">
       <div class="message-date">{{ group.date | chatDate }}</div>
       <div *ngFor="let message of group.messages" class="message" [ngClass]="{ 'own-message': !message.received }">
         <div class="message-content">
@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div style="z-index: 100;">ATENÇÃO! As mensagens - ainda - <strong>NÃO</strong> estão sendo armazenadas com criptografia</div>
+  <div style="z-index: 100; position: fixed; top: 68px; padding: 10px; background-color: #fff;">ATENÇÃO! As mensagens - ainda - <strong>NÃO</strong> estão sendo armazenadas com criptografia</div>
 
   <div class="message-input-container">
     <input [formControl]="messageForm" (keyup.enter)="sendMessage()" placeholder="Type a message" class="message-input"/>

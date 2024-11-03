@@ -1,6 +1,7 @@
-<div class="container">
+<div class="container" [ngClass]="{ showMenu }">
   <div class="content">
     <router-outlet></router-outlet>
   </div>
+  <app-menu *ngIf="showMenu"></app-menu>
 </div>
 <app-loading *ngIf="loadingService.isLoading" [fullScreen]="true"></app-loading>
