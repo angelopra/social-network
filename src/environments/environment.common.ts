@@ -13,7 +13,7 @@ const envCommon = {
     group: {
       getById: '/group/{groupId}',
       getPosts: '/group/{groupId}/posts',
-      create: '/group',
+      create: '/group!AUTH!',
     },
     post: {
       create: '/post!AUTH!',

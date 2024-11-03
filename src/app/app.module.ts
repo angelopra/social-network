@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -38,6 +39,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { INTERCEPTOR_PROVIDERS } from './interceptors/interceptors-provider';
 import { ConfirmationDialogComponent } from './services/confirmation/confirmation-dialog/confirmation-dialog.component';
 import { ChatDatePipe } from './components/chat-list/chat/chat-date.pipe';
+import { InputTextComponent } from './components/common/input-text/input-text.component';
+import { CreateGroupDialogComponent } from './components/groups/create-group-dialog/create-group-dialog.component';
+import { TagsSelectorComponent } from './components/common/tags-selector/tags-selector.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +62,9 @@ import { ChatDatePipe } from './components/chat-list/chat/chat-date.pipe';
     GroupComponent,
     ConfirmationDialogComponent,
     ChatDatePipe,
+    InputTextComponent,
+    CreateGroupDialogComponent,
+    TagsSelectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +85,7 @@ import { ChatDatePipe } from './components/chat-list/chat/chat-date.pipe';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatExpansionModule,
+    MatAutocompleteModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
     RouterModule.forRoot(routes),

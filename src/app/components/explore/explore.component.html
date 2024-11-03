@@ -1,9 +1,5 @@
 <div class="search">
-  <div class="search-container">
-    <mat-form-field class="search-box">
-      <input matInput placeholder="Search" type="search" [formControl]="query">
-    </mat-form-field>
-  </div>
+  <app-input-text [search]="true" [inputControl]="query" floatingLabel="Search profiles"></app-input-text>
   
   <app-user-list [users]="results.items"></app-user-list>
 

@@ -47,4 +47,8 @@ export class ExploreComponent {
         finalize(() => this.isLoading = false)
       );
   }
+
+  clear(): void {
+    this.query.reset();
+  }
 }

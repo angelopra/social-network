@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Create new Group</h2>
+<mat-dialog-content>
+  <form [formGroup]="groupForm">
+    <app-input-text [inputControl]="groupForm.controls.name" floatingLabel="Group name"></app-input-text>
+    <app-input-text [inputControl]="groupForm.controls.pictureUrl" floatingLabel="Group picture" placeholder="Picture url..."></app-input-text>
+    <mat-form-field class="full-width">
+      <textarea
+        matInput
+        placeholder="Description..."
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+    <app-tags-selector [tagsIdsControl]="groupForm.controls.tagsIds"></app-tags-selector>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="groupForm.invalid">
+    Create
+  </button>
+</mat-dialog-actions>

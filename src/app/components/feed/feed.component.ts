@@ -53,9 +53,8 @@ export class FeedComponent implements OnDestroy {
       if (res) {
         this.loadingService.isLoading = true;
         this.feedService.createPost(res).subscribe(() => {
-          setTimeout(() => this.loadingService.isLoading = false);
           this.snackBar.open('Post created successfully!', '✓', { verticalPosition: 'top', duration: 3000 });
-        });
+        }).add(() => this.loadingService.isLoading = false);
       }
     });
   }

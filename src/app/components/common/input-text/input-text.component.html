@@ -1,0 +1,9 @@
+<div [ngClass]="{ 'search-container': search }">
+  <mat-form-field class="search-box">
+    <mat-label *ngIf="floatingLabel">{{ floatingLabel }}</mat-label>
+    <input matInput [formControl]="inputControl" [placeholder]="placeholder" />
+    <button mat-icon-button matSuffix *ngIf="inputControl.value" (click)="clear()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
