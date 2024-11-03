@@ -61,6 +61,6 @@ export class FeedComponent implements OnDestroy {
 
   private loadMore(): void {
     this.isLoading = true;
-    this.feedService.get().subscribe(p => this.posts = p).add(() => this.isLoading = false);
+    this.feedService.get().subscribe(p => this.posts = p.items).add(() => this.isLoading = false);
   }
 }

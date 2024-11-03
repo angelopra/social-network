@@ -11,8 +11,8 @@ const envCommon = {
       deny: '/follow/{followerId}/deny!AUTH!',
     },
     group: {
-      getById: '/group/{groupId}',
-      getPosts: '/group/{groupId}/posts',
+      getById: '/group/{groupId}!AUTH!',
+      getPosts: '/group/{groupId}/posts!AUTH!',
       create: '/group!AUTH!',
     },
     post: {

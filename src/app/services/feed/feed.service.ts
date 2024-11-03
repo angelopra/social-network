@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CreatePostDto, PostDto, Slice } from 'src/app/models';
+import { CreatePostDto, PostDto, SearchResult, Slice } from 'src/app/models';
 import envCommon from 'src/environments/environment.common';
 
 @Injectable({
@@ -12,9 +12,10 @@ export class FeedService {
 
   constructor(private http: HttpClient) {}
 
-  get(slice?: Slice): Observable<PostDto[]> {
+  get(slice?: Slice): Observable<SearchResult<PostDto>> {
     const options = { params: new HttpParams().appendAll({ ...slice }) };
-    return this.http.get<PostDto[]>(envCommon.apiRoutes.user.feed, options);
+
+    return this.http.get<SearchResult<PostDto>>(envCommon.apiRoutes.user.feed, options);
   }
 
   createPost(newPost: CreatePostDto): Observable<string> {
