@@ -1,7 +1,10 @@
 .container {
   display: flex;
   justify-content: center; /* Centers the content horizontally */
-  padding-bottom: 60px; /* menu height */
+
+  &.showMenu {
+    padding-bottom: 60px; /* menu height */
+  }
 }
 
 .content {

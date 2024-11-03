@@ -5,6 +5,10 @@
 }
 
 .messages {
+  padding-bottom: 80px;
+}
+
+.messages-group {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -12,7 +16,8 @@
   padding: 0 10px;
 
   &.spaced {
-    padding-top: 75px;
+    padding-top: calc(75px + 60px); // remove this and uncomment bellow after removing the warning message
+    // padding-top: 75px; // remove this +60px after removing the warning message
   }
 }
 

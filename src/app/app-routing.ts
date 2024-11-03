@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HOME_URL } from './app.config';
+import { CHATS_URL, HOME_URL, LOGIN_URL } from './app.config';
 import { FeedComponent } from './components/feed/feed.component';
 import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -15,9 +15,10 @@ import { GroupComponent } from './components/groups/group/group.component';
 import { resumedUserResolver } from './resolvers/resumed-user.resolver';
 import { currentUserResolver } from './resolvers/current-user.resolver';
 
+const showMenu = true;
 export const routes: Routes = [
   {
-    path: 'login',
+    path: LOGIN_URL,
     component: LoginComponent,
     canActivate: [redirectGuard],
   },
@@ -32,14 +33,16 @@ export const routes: Routes = [
     resolve: { currentUser: currentUserResolver },
     children: [
       {
-        path: 'home',
+        path: HOME_URL,
+        data: { showMenu },
         component: FeedComponent,
       },
       {
-        path: 'chats',
+        path: CHATS_URL,
         children: [
           {
             path: '',
+            data: { showMenu },
             component: ChatListComponent,
           },
           {
@@ -52,14 +55,17 @@ export const routes: Routes = [
       {
         path: 'profile/:userId',
         resolve: { user: userResolver },
+        data: { showMenu },
         component: ProfileComponent,
       },
       {
         path: 'explore',
+        data: { showMenu },
         component: ExploreComponent,
       },
       {
         path: 'groups',
+        data: { showMenu },
         children: [
           {
             path: '',
