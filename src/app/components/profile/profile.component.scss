@@ -51,17 +51,19 @@
   margin-right: 5px;
 }
 
+.tags-section,
 .about-section {
   display: flex;
   align-items: center;
 }
 
-.about-section p,
-.about-section textarea {
+.tags-content,
+.about-content {
   gap: 5px;
   flex: 1;
 }
 
+.tags-buttons,
 .about-buttons {
   margin-left: 10px;
 }

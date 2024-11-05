@@ -4,8 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { compareAsc, format, isSameDay, parseISO } from 'date-fns';
 import { groupBy } from 'lodash-es';
 import { map, switchMap } from 'rxjs';
-import { MessageDto, ResumedUserDto } from 'src/app/models';
+import { MessageDto, ResumedUserDto, UserChatDto } from 'src/app/models';
 import { ChatService } from 'src/app/services/chat/chat.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 const scrollThreshold = 150;
 
@@ -25,7 +26,11 @@ export class ChatComponent implements AfterViewChecked {
   isFarFromBottom = false;
   needsScroll = false;
 
-  constructor(private route: ActivatedRoute, private chatService: ChatService) {
+  constructor(
+    private route: ActivatedRoute,
+    private chatService: ChatService,
+    private userService: UserService,
+  ) {
     this.route.data.pipe(
       map(({ receiver }) => {
         this.receiver = receiver as ResumedUserDto;
@@ -68,11 +73,27 @@ export class ChatComponent implements AfterViewChecked {
     if (newMessage) {
       this.chatService.send(this.receiver.id, newMessage);
 
-      this.pushMessage({
+      const newMessageDto: MessageDto = {
         content: newMessage,
         received: false,
         createdAtUtc: (new Date()).toISOString(),
-      });
+      };
+
+      this.pushMessage(newMessageDto);
+      
+      const chatDoesntExist = !this.userService.current?.chats.some(c => c.otherUser.id === this.receiver?.id);
+      if (chatDoesntExist) {
+        const newChat: UserChatDto = {
+          id: {
+            timestamp: Date.now(),
+            creationTime: new Date(),
+          },
+          otherUser: this.receiver,
+          lastMessage: newMessageDto,
+        };
+
+        this.userService.current?.chats.unshift(newChat);
+      }
     }
     
     this.messageForm.reset();

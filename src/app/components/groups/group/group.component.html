@@ -10,7 +10,7 @@
   </div>
 
   <div class="posts">
-    <app-content-list [options]="listOptions" [items]="posts"></app-content-list>
+    <app-content-list [posts]="posts"></app-content-list>
   
     <app-loading *ngIf="loader.isLoading"></app-loading>
   </div>

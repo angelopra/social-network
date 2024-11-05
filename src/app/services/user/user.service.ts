@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, share, tap } from 'rxjs';
-import { CurrentUserDto, ResumedUserDto, SearchResult, Slice, UserDto, UserPostDto, UserSearchQueryParams } from 'src/app/models';
+import { CurrentUserDto, ResumedUserDto, SearchResult, Slice, TagDto, UserDto, UserPostDto, UserSearchQueryParams } from 'src/app/models';
 import envCommon from 'src/environments/environment.common';
 import { parseTemplate } from 'url-template';
 import { AuthService } from '../auth/auth.service';
@@ -63,5 +63,9 @@ export class UserService {
 
   updateCurrentAbout(newAbout: string): Observable<void> {
     return this.http.put<void>(envCommon.apiRoutes.user.current.updateAbout, { newAbout });
+  }
+
+  updateCurrentTags(tagsIds: string[]): Observable<TagDto[]> {
+    return this.http.put<TagDto[]>(envCommon.apiRoutes.user.current.updateTags, { tagsIds });
   }
 }

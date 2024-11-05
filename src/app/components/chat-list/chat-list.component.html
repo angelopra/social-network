@@ -1,1 +1,18 @@
-<app-content-list [items]="chats" [options]="listOptions"></app-content-list>
+<app-input-text [search]="true" [inputControl]="filter" floatingLabel="Search chats"></app-input-text>
+
+<div class="list-container">
+  <div class="clickable item" *ngFor="let c of chats" (click)="navToChat(c)">
+    <img
+      [src]="c.otherUser.profilePictureUrl ?? 'assets/img/default-profile.jpg'"
+      alt="{{c.otherUser.firstName}} {{c.otherUser.lastName}}'s picture"
+      class="image"
+    />
+    <div class="content">
+      <a class="title">{{ c.otherUser.firstName }} {{ c.otherUser.lastName }}</a>
+      <span class="date">
+        <a>{{ displayDate(c) }}</a>
+      </span>
+      <p>{{ (c.lastMessage.received ? '' : 'You: ') + c.lastMessage.content }}</p>
+    </div>
+  </div>
+</div>

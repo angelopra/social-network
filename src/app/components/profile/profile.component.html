@@ -14,11 +14,32 @@
     </div>
   </div>
   <div class="profile-details">
-    <mat-chip class="tag" *ngFor="let tag of user.tags">{{ tag }}</mat-chip>
+    <div class="tags-section">
+      <div class="tags-content">
+        <div *ngIf="!isEditingTags">
+          <mat-chip class="tag" *ngFor="let tag of user.tags">{{ tag.name }}</mat-chip>
+        </div>
+        <app-tags-selector *ngIf="isEditingTags" [tagsIdsControl]="tagsIdsControl"></app-tags-selector>
+      </div>
+
+      <div *ngIf="isSelfProfile" class="tags-buttons">
+        <button mat-icon-button (click)="isEditingTags = !isEditingTags" *ngIf="!isEditingTags">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button [disabled]="isLoadingTagsChanges" mat-icon-button (click)="isEditingTags = !isEditingTags; tagsIdsControl.reset()" *ngIf="isEditingTags">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button [disabled]="isLoadingTagsChanges" mat-icon-button (click)="saveTags()" *ngIf="isEditingTags">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
 
     <div class="about-section">
-      <p *ngIf="!isEditingAbout">{{ user.about }}</p>
-      <textarea *ngIf="isEditingAbout" [formControl]="aboutControl"></textarea>
+      <div class="about-content">
+        <p *ngIf="!isEditingAbout">{{ user.about }}</p>
+        <textarea *ngIf="isEditingAbout" [formControl]="aboutControl"></textarea>
+      </div>
     
       <div *ngIf="isSelfProfile" class="about-buttons">
         <button mat-icon-button (click)="isEditingAbout = !isEditingAbout" *ngIf="!isEditingAbout">
@@ -52,7 +73,7 @@
   <mat-tab-group animationDuration="120" dynamicHeight>
     <mat-tab label="Posts">
       <div>
-        <app-content-list [items]="posts" [options]="listOptions"></app-content-list>
+        <app-content-list [posts]="posts"></app-content-list>
       </div>
     </mat-tab>
     <mat-tab label="Followers">

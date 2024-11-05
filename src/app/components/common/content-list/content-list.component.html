@@ -1,45 +1,33 @@
-<div *ngIf="options" class="list-container">
-  <div
-    class="item"
-    *ngFor="let item of items"
-    (click)="options.onClick?.(item)"
-    [ngClass]="{ clickable: !!options.onClick }"
-  >
-    <img
-      (click)="options.image.onClick?.(item)"
-      [ngClass]="{ clickable: !!options.image.onClick }"
-      [src]="options.image.src(item)"
-      [alt]="options.image.alt(item)"
-      class="image"
-    />
-    <div class="content">
-      <a
-        (click)="options.title.onClick?.(item)"
-        [ngClass]="{ clickable: !!options.title.onClick }"
-        class="title"
-      >
-        {{ options.title.displayWith(item) }}
-      </a
-      >
-      <span
-        (click)="options.date.onClick?.(item)"
-        [ngClass]="{ clickable: !!options.date.onClick }"
-        class="date"
-      >
-        <a *ngIf="options.date.format !== null; else dateStr">
-          {{ options.date.displayWith(item) | date: options.date.format?.(item) }}
+<div class="list-container">
+  <mat-card class="item" *ngFor="let p of posts">
+    <!-- Profile Image and Header -->
+    <div class="header-section">
+      <img
+        routerLink="/profile/{{ p.author.id }}"
+        [src]="p.author.profilePictureUrl ?? 'assets/img/default-profile.jpg'"
+        alt="{{ p.author.firstName }} {{ p.author.lastName }}'s profile picture"
+        class="clickable image"
+      />
+      <div class="header">
+        <a routerLink="/profile/{{ p.author.id }}" class="clickable title">
+          {{ p.author.firstName }} {{ p.author.lastName }}
         </a>
-        <ng-template #dateStr>
-          {{ options.date.displayWith(item) }}
-        </ng-template>
-      </span
-      >
-      <p
-        (click)="options.content.onClick?.(item)"
-        [ngClass]="{ clickable: !!options.content.onClick }"
-      >
-        {{ options.content.displayWith(item) }}
-      </p>
+        <button *ngIf="userIsTheAuthor(p)" mat-icon-button [matMenuTriggerFor]="menu" aria-label="More options">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="deletePost(p)">
+            <mat-icon color="warn">delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </div>
     </div>
-  </div>
+
+    <!-- Post Content and Date -->
+    <div class="content">
+      <p class="post-content">{{ p.content }}</p>
+      <span class="date">{{ p.createdAtUtc | date: 'short' }}</span>
+    </div>
+  </mat-card>
 </div>

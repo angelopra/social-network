@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ContentListOptions } from 'src/app/interfaces/content-list-options';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { CreatePostDto, PostDto, UserGroupDto } from 'src/app/models';
+import { FeedService } from 'src/app/services/feed/feed.service';
 import { GroupService } from 'src/app/services/group/group.service';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 import { Loader } from 'src/app/utils/loader';
 import { NewPostComponent } from '../../new-post/new-post.component';
-import { LoadingService } from 'src/app/services/loading/loading.service';
-import { FeedService } from 'src/app/services/feed/feed.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-group',
@@ -18,30 +17,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class GroupComponent {
   readonly loader = new Loader();
 
-  listOptions: ContentListOptions<PostDto> = {
-    image: {
-      src: p => p.author.profilePictureUrl ?? 'assets/img/default-profile.jpg',
-      alt: p => `${p.author.firstName} ${p.author.lastName}'s profile picture`,
-      onClick: p => this.router.navigate(['/profile', p.author.id]),
-    },
-    title: {
-      displayWith: p => `${p.author.firstName} ${p.author.lastName}`,
-      onClick: p => this.router.navigate(['/profile', p.author.id]),
-    },
-    date: {
-      displayWith: p => p.createdAtUtc,
-    },
-    content: {
-      displayWith: p => p.content,
-    },
-  };
-
   group?: UserGroupDto;
   posts: PostDto[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private groupService: GroupService,
     private dialog: MatDialog,
     private loadingService: LoadingService,

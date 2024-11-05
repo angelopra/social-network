@@ -1,13 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { ContentListOptions } from 'src/app/interfaces/content-list-options';
 import { PostDto } from 'src/app/models';
 import { FeedService } from 'src/app/services/feed/feed.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
-import { NewPostComponent } from '../new-post/new-post.component';
 import { Loader } from 'src/app/utils/loader';
+import { NewPostComponent } from '../new-post/new-post.component';
 
 @Component({
   selector: 'app-feed',
@@ -16,23 +14,6 @@ import { Loader } from 'src/app/utils/loader';
 })
 export class FeedComponent implements OnDestroy {
   posts: PostDto[] = [];
-  listOptions: ContentListOptions<PostDto> = {
-    image: {
-      src: p => p.author.profilePictureUrl ?? 'assets/img/default-profile.jpg',
-      alt: p => `${p.author.firstName} ${p.author.lastName}'s profile picture`,
-      onClick: p => this.router.navigate(['/profile', p.author.id]),
-    },
-    title: {
-      displayWith: p => `${p.author.firstName} ${p.author.lastName}`,
-      onClick: p => this.router.navigate(['/profile', p.author.id]),
-    },
-    date: {
-      displayWith: p => p.createdAtUtc,
-    },
-    content: {
-      displayWith: p => p.content,
-    },
-  };
 
   readonly loader = new Loader();
 
@@ -41,7 +22,6 @@ export class FeedComponent implements OnDestroy {
     private dialog: MatDialog,
     private loadingService: LoadingService,
     private snackBar: MatSnackBar,
-    private router: Router,
   ) {
     this.loadMore();
   }

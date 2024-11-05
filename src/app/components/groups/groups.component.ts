@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { GROUPS_URL } from 'src/app/app.config';
 import { CreateGroupDto, UserGroupDto } from 'src/app/models';
-import { UserService } from 'src/app/services/user/user.service';
-import { CreateGroupDialogComponent } from './create-group-dialog/create-group-dialog.component';
 import { GroupService } from 'src/app/services/group/group.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { GROUPS_URL } from 'src/app/app.config';
+import { UserService } from 'src/app/services/user/user.service';
+import { CreateGroupDialogComponent } from './create-group-dialog/create-group-dialog.component';
 
 @Component({
   selector: 'app-groups',
@@ -24,9 +24,8 @@ export class GroupsComponent {
     private groupService: GroupService,
     private loadingService: LoadingService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
   ) {
-    this.filter.valueChanges.subscribe(v => this.groups = (userService.current?.groups ?? []).filter(g => g.name.toLowerCase().includes(v.toLowerCase())))
+    this.filter.valueChanges.subscribe(v => this.groups = (userService.current?.groups ?? []).filter(g => g.name.toLowerCase().includes(v.toLowerCase())));
   }
 
   getGroupMessage(g: UserGroupDto): string {

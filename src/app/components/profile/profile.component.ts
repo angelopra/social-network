@@ -2,8 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ContentListOptions } from 'src/app/interfaces/content-list-options';
-import { ResumedUserDto, UserDto, UserPostDto } from 'src/app/models';
+import { PostDto, ResumedUserDto, UserDto } from 'src/app/models';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConfirmationService } from 'src/app/services/confirmation/confirmation.service';
 import { FollowService } from 'src/app/services/follow/follow.service';
@@ -16,26 +15,13 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class ProfileComponent {
   user?: UserDto;
-  posts: UserPostDto[] = [];
+  posts: PostDto[] = [];
   isEditingAbout = false;
+  isEditingTags = false;
   isLoadingAboutChanges = false;
+  isLoadingTagsChanges = false;
   aboutControl = this.nnfb.control('');
-
-  listOptions: ContentListOptions<UserPostDto> = {
-    image: {
-      src: _ => this.user?.profilePictureUrl ?? 'assets/img/default-profile.jpg',
-      alt: _ => `${this.user?.firstName} ${this.user?.lastName}'s profile picture`,
-    },
-    title: {
-      displayWith: _ => `${this.user?.firstName} ${this.user?.lastName}`,
-    },
-    date: {
-      displayWith: p => p.createdAtUtc,
-    },
-    content: {
-      displayWith: p => p.content,
-    },
-  };
+  tagsIdsControl = this.nnfb.control<string[]>([]);
 
   constructor(
     public readonly location: Location,
@@ -48,8 +34,9 @@ export class ProfileComponent {
   ) {
     this.route.data.subscribe(({ user }) => {
       this.user = user as UserDto;
-      this.userService.getUserPosts(this.user.id).subscribe(p => this.posts = p.items);
+      this.userService.getUserPosts(this.user.id).subscribe(p => this.posts = p.items.map(userPost => ({ ...userPost, author: { ...this.user! } })));
       this.aboutControl = nnfb.control(this.user.about ?? '');
+      this.tagsIdsControl = nnfb.control(this.user.tags.map(t => t.id));
     });
   }
 
@@ -120,7 +107,27 @@ export class ProfileComponent {
           this.aboutControl = this.nnfb.control(newAbout);
         }).add(() => this.isLoadingAboutChanges = false);
       },
-      { title: 'Are you sure you want to update your profile?' },
-    )
+      { title: 'Are you sure you want to update your about?' },
+    );
+  }
+
+  saveTags(): void {
+    if (!this.user) {
+      throw new Error('user should be defined');
+    }
+    const user = this.user;
+    const tagsIds = this.tagsIdsControl.value;
+
+    this.confirmationService.fire(
+      () => {
+        this.isLoadingTagsChanges = true;
+        this.userService.updateCurrentTags(tagsIds).subscribe(newTags => {
+          this.isEditingTags = false;
+          user.tags = newTags;
+          this.tagsIdsControl = this.nnfb.control(tagsIds);
+        }).add(() => this.isLoadingTagsChanges = false);
+      },
+      { title: 'Are you sure you want to update your tags?' },
+    );
   }
 }

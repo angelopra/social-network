@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { isString } from 'lodash-es';
@@ -10,7 +10,7 @@ import { TagsService } from 'src/app/services/tags/tags.service';
   templateUrl: './tags-selector.component.html',
   styleUrls: ['./tags-selector.component.scss']
 })
-export class TagsSelectorComponent {
+export class TagsSelectorComponent implements OnInit {
   @Input() tagsIdsControl!: FormControl<string[]>;
 
   availableTags: TagDto[] = [];
@@ -19,9 +19,14 @@ export class TagsSelectorComponent {
   filter = new FormControl('');
 
   constructor(private tagsService: TagsService) {
-    this.tagsService.getAll().subscribe(t => this.availableTags = this.filteredTags = t.sort((a, b) => a.name.localeCompare(b.name)));
-
     this.filter.valueChanges.subscribe(v => this.filteredTags = this.availableTags.filter(t => t.name.toLowerCase().includes(isString(v) ? v.toLowerCase() : '')));
+  }
+
+  ngOnInit(): void {
+    this.tagsService.getAll().subscribe(t => {
+      this.availableTags = this.filteredTags = t.sort((a, b) => a.name.localeCompare(b.name));
+      this.selectedTags = this.availableTags.filter(t => this.tagsIdsControl.value.includes(t.id));
+    });
   }
 
   remove(tag: TagDto): void {

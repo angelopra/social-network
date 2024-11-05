@@ -17,6 +17,7 @@ const envCommon = {
     },
     post: {
       create: '/post!AUTH!',
+      delete: '/post/{postId}!AUTH!',
     },
     tag: {
       getAll: '/tag',
