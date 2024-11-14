@@ -1,5 +1,4 @@
 import { GoogleLoginProvider, GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,6 +41,7 @@ import { ChatDatePipe } from './components/chat-list/chat/chat-date.pipe';
 import { InputTextComponent } from './components/common/input-text/input-text.component';
 import { CreateGroupDialogComponent } from './components/groups/create-group-dialog/create-group-dialog.component';
 import { TagsSelectorComponent } from './components/common/tags-selector/tags-selector.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -70,7 +70,6 @@ import { TagsSelectorComponent } from './components/common/tags-selector/tags-se
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpClientModule,
     MatIconModule,
     MatChipsModule,
     MatCardModule,
@@ -104,6 +103,7 @@ import { TagsSelectorComponent } from './components/common/tags-selector/tags-se
       }
     },
     INTERCEPTOR_PROVIDERS,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
   bootstrap: [AppComponent]
 })
