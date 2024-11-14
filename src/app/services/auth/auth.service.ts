@@ -15,7 +15,7 @@ export class AuthService {
     private socialAuthService: SocialAuthService,
   ) {
     this.socialAuthService.authState.subscribe(user => {
-      localStorage.setItem('idToken', user.idToken);
+      sessionStorage.setItem('idToken', user.idToken);
       router.navigateByUrl(HOME_URL);
     });
   }
@@ -25,16 +25,16 @@ export class AuthService {
   }
 
   get idToken(): string {
-    return localStorage.getItem('idToken') ?? '';
+    return sessionStorage.getItem('idToken') ?? '';
   }
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('idToken');
+    const token = sessionStorage.getItem('idToken');
     return !!token;
   }
 
   logout(): void {
-    localStorage.removeItem('idToken');
+    sessionStorage.removeItem('idToken');
     this.router.navigateByUrl(LOGIN_URL);
     this._loggedOut$.next();
   }
