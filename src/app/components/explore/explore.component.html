@@ -3,5 +3,5 @@
   
   <app-user-list [users]="results.items"></app-user-list>
 
-  <div *ngIf="showLoadMore" (click)="loadMore()">Load more</div>
+  <mat-chip class="load-more" *ngIf="showLoadMore" (click)="loadMore()">Load more</mat-chip>
 </div>

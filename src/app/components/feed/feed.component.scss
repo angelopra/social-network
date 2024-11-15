@@ -1,15 +1,16 @@
-.feed {
-  .app-title {
-    font-size: 36px;
-    color: #673ab7;
-    margin: 20px 0 0;
-    text-align: center;
-    text-transform: uppercase;
-    font-family: 'Roboto', sans-serif;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding-bottom: 20px;
-  }
+.app-title {
+  font-size: 36px;
+  color: #673ab7;
+  margin-bottom: 8px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: white;
+}
 
+.feed {
   .add-post-button {
     position: fixed;
     bottom: 70px;

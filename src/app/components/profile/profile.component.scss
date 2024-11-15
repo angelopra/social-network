@@ -48,24 +48,43 @@
 }
 
 .profile-details .tag {
-  margin-right: 5px;
+  margin: 3px;
 }
 
 .tags-section,
 .about-section {
   display: flex;
   align-items: center;
+  background-color: white;
+  padding: 5px 16px;
+  border-radius: 5px;
+  margin: 8px 0;
+}
+
+.more-padding-top {
+  padding-top: 16px;
 }
 
 .tags-content,
 .about-content {
   gap: 5px;
   flex: 1;
+
+  textarea {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .tags-buttons,
 .about-buttons {
   margin-left: 10px;
+}
+
+.tags-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .options-button,
@@ -78,8 +97,9 @@
 }
 
 mat-expansion-panel {
-  margin: 10px 0 !important;
   border: 1px solid #e0e0e0;
+  margin: 10px 0 !important;
+  background-color: whitesmoke;
 }
 
 .follow-requests {

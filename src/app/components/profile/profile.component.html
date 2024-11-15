@@ -14,8 +14,8 @@
     </div>
   </div>
   <div class="profile-details">
-    <div class="tags-section">
-      <div class="tags-content">
+    <div class="tags-section" *ngIf="user.tags.length || isSelfProfile">
+      <div class="tags-content" [ngClass]="{ 'more-padding-top': isEditingTags }">
         <div *ngIf="!isEditingTags">
           <mat-chip class="tag" *ngFor="let tag of user.tags">{{ tag.name }}</mat-chip>
         </div>
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="about-section">
+    <div class="about-section" *ngIf="user.about?.length || isSelfProfile">
       <div class="about-content">
         <p *ngIf="!isEditingAbout">{{ user.about }}</p>
         <textarea *ngIf="isEditingAbout" [formControl]="aboutControl"></textarea>

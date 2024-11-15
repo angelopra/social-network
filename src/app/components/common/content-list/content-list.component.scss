@@ -1,12 +1,12 @@
 .list-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 
   .item {
     display: flex;
     flex-direction: column;
     padding: 15px;
+    margin: 8px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     background-color: #fff;
