@@ -42,7 +42,7 @@ export class ChatComponent implements AfterViewChecked {
       setTimeout(() => this.scrollToBottom());
     });
 
-    chatService.newMessages.subscribe(this.pushMessage);
+    chatService.newMessages.subscribe(m => this.pushMessage(m));
   }
 
   ngAfterViewChecked(): void {
