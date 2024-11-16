@@ -19,7 +19,7 @@ export class ChatListComponent {
     private userService: UserService,
     private router: Router,
   ) {
-    this.filter.valueChanges.subscribe(v => this.chats = (this.userService.current?.chats ?? []).filter(c => (c.otherUser.firstName + c.otherUser.lastName).toLowerCase().includes(v.toLowerCase())))
+    this.filter.valueChanges.subscribe(v => this.chats = (this.userService.current?.chats ?? []).filter(c => (c.otherUser.firstName + c.otherUser.lastName).toLowerCase().includes(v.toLowerCase())));
   }
 
   navToChat(chat: UserChatDto): void {

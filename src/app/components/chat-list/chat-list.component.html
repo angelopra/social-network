@@ -12,7 +12,7 @@
       <span class="date">
         <a>{{ displayDate(c) }}</a>
       </span>
-      <p>{{ (c.lastMessage.received ? '' : 'You: ') + c.lastMessage.content }}</p>
+      <p class="truncate">{{ (c.lastMessage.received ? '' : 'You: ') + c.lastMessage.content }}</p>
     </div>
   </div>
 </div>

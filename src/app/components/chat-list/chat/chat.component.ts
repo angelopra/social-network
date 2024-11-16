@@ -1,10 +1,10 @@
-import { AfterViewChecked, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { compareAsc, format, isSameDay, parseISO } from 'date-fns';
 import { groupBy } from 'lodash-es';
 import { map, switchMap } from 'rxjs';
-import { MessageDto, ResumedUserDto, UserChatDto } from 'src/app/models';
+import { MessageDto, ResumedUserDto } from 'src/app/models';
 import { ChatService } from 'src/app/services/chat/chat.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -20,7 +20,7 @@ type GroupedMessages = { messages: MessageDto[], date: Date }[];
 export class ChatComponent implements AfterViewChecked {
   @ViewChild('messagesDiv') messagesDiv?: ElementRef;
 
-  groupedMessages: GroupedMessages = [];
+  groupedMessages = signal<GroupedMessages>([]);
   messageForm = new FormControl('');
   receiver?: ResumedUserDto;
   isFarFromBottom = false;
@@ -38,17 +38,11 @@ export class ChatComponent implements AfterViewChecked {
       }),
       switchMap(r => chatService.getMessages(r.id))
     ).subscribe(messages => {
-      this.groupedMessages = this.groupMessagesByDate(messages);
+      this.groupedMessages.set(this.groupMessagesByDate(messages));
       setTimeout(() => this.scrollToBottom());
     });
 
-    chatService.newMessages.subscribe(newMessage => {
-      this.pushMessage({
-        content: newMessage.message,
-        received: newMessage.senderId === this.receiver?.id,
-        createdAtUtc: (new Date()).toISOString(),
-      });
-    });
+    chatService.newMessages.subscribe(this.pushMessage);
   }
 
   ngAfterViewChecked(): void {
@@ -71,29 +65,15 @@ export class ChatComponent implements AfterViewChecked {
     const newMessage = this.messageForm.getRawValue()?.trim();
 
     if (newMessage) {
-      this.chatService.send(this.receiver.id, newMessage);
-
       const newMessageDto: MessageDto = {
         content: newMessage,
         received: false,
         createdAtUtc: (new Date()).toISOString(),
       };
 
-      this.pushMessage(newMessageDto);
-      
-      const chatDoesntExist = !this.userService.current?.chats.some(c => c.otherUser.id === this.receiver?.id);
-      if (chatDoesntExist) {
-        const newChat: UserChatDto = {
-          id: {
-            timestamp: Date.now(),
-            creationTime: new Date(),
-          },
-          otherUser: this.receiver,
-          lastMessage: newMessageDto,
-        };
+      this.chatService.send(this.receiver, newMessageDto);
 
-        this.userService.current?.chats.unshift(newChat);
-      }
+      this.pushMessage(newMessageDto);
     }
     
     this.messageForm.reset();
@@ -108,15 +88,19 @@ export class ChatComponent implements AfterViewChecked {
 
   private pushMessage(message: MessageDto): void {
     const messageDate = parseISO(message.createdAtUtc);
-    const group = this.groupedMessages.find(g => isSameDay(g.date, messageDate));
+    this.groupedMessages.update(curr => {
+      const group = curr.find(g => isSameDay(g.date, messageDate));
 
-    if (group) {
-      group.messages.push(message);
-      group.messages.sort((a, b) => compareAsc(parseISO(a.createdAtUtc), parseISO(b.createdAtUtc)))
-    } else {
-      this.groupedMessages.push({ date: parseISO(format(messageDate, 'yyyy-MM-dd')), messages: [message] });
-      this.groupedMessages.sort((a, b) => compareAsc(a.date, b.date));
-    }
+      if (group) {
+        group.messages.push(message);
+        group.messages.sort((a, b) => compareAsc(parseISO(a.createdAtUtc), parseISO(b.createdAtUtc)));
+      } else {
+        curr.push({ date: parseISO(format(messageDate, 'yyyy-MM-dd')), messages: [message] });
+        curr.sort((a, b) => compareAsc(a.date, b.date));
+      }
+      
+      return curr;
+    });
 
     setTimeout(() => {
       this.setIsFarFromBottom();

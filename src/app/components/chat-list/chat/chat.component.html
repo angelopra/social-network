@@ -10,15 +10,17 @@
   </div>
   
   <div #messagesDiv class="messages">
-    <div class="messages-group" *ngFor="let group of groupedMessages; index as i" [ngClass]="{ spaced: i === 0 }">
-      <div class="message-date">{{ group.date | chatDate }}</div>
-      <div *ngFor="let message of group.messages" class="message" [ngClass]="{ 'own-message': !message.received }">
-        <div class="message-content">
-          <span>{{ message.content }}</span>
-          <span class="message-time">{{ message.createdAtUtc | date: 'HH:mm' }}</span>
+    @for (group of groupedMessages(); track i; let i = $index) {
+      <div class="messages-group" [ngClass]="{ spaced: i === 0 }">
+        <div class="message-date">{{ group.date | chatDate }}</div>
+        <div *ngFor="let message of group.messages" class="message" [ngClass]="{ 'own-message': !message.received }">
+          <div class="message-content">
+            <span>{{ message.content }}</span>
+            <span class="message-time">{{ message.createdAtUtc | date: 'HH:mm' }}</span>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 
   <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); z-index: 100; position: fixed; top: 68px; padding: 10px; background-color: white;">ATENÇÃO! As mensagens - ainda - <strong>NÃO</strong> estão sendo armazenadas com criptografia</div>
